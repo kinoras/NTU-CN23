@@ -9,6 +9,7 @@ import locale from 'antd/locale/zh_TW'
 
 import ProfileView from './views/ProfileView'
 import ChatView from './views/ChatView'
+import ErrorView from './views/ErrorView'
 
 const App = () => {
     const location = useLocation()
@@ -72,10 +73,11 @@ const App = () => {
                 </Layout.Sider>
                 <Layout.Content className="p-4">
                     <Routes>
-                        <Route path="/" element={<></>} />
+                        {/* <Route path="/" element={<></>} /> */}
                         <Route path="/profile" element={<ProfileView />} />
                         <Route path="/chat" element={<ChatView />} />
                         <Route path="/chat/:id" element={<ChatView />} />
+                        <Route path="*" element={<ErrorView />} />
                     </Routes>
                 </Layout.Content>
             </Layout>
