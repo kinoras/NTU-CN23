@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import { ConfigProvider, Layout, Menu, theme } from 'antd'
+import { orange as color } from '@ant-design/colors'
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/react-fontawesome'
-import { faComments, faUser } from '@fortawesome/free-regular-svg-icons'
+import { faComments, faMoon, faSun, faUser } from '@fortawesome/free-regular-svg-icons'
 import locale from 'antd/locale/zh_TW'
 
 import ProfileView from './views/ProfileView'
@@ -10,6 +12,8 @@ import ChatView from './views/ChatView'
 
 const App = () => {
     const location = useLocation()
+    const isDarkMode = useSelector((state) => state.isDarkMode)
+    const dispatch = useDispatch()
 
     const [collapsed, setCollapsed] = useState(false)
     const [currPage, setCurrPage] = useState('')
@@ -23,8 +27,8 @@ const App = () => {
             autoInsertSpaceInButton={false}
             locale={locale}
             theme={{
-                algorithm: theme.defaultAlgorithm,
-                token: { controlHeight: 36 }
+                algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+                token: { controlHeight: 36, colorPrimary: color.primary }
             }}
         >
             <Layout className="min-h-screen">
@@ -51,6 +55,19 @@ const App = () => {
                                 key: 'chat'
                             }
                         ]}
+                    />
+                    <Menu
+                        selectedKeys={[]}
+                        mode="inline"
+                        className="p-1"
+                        items={[
+                            {
+                                icon: <FaIcon icon={!isDarkMode ? faMoon : faSun} className="-ml-0.5 w-5 text-base" />,
+                                label: '切換主題',
+                                key: 'theme'
+                            }
+                        ]}
+                        onSelect={() => dispatch({ type: 'SET_THEME', value: !isDarkMode })}
                     />
                 </Layout.Sider>
                 <Layout.Content className="p-4">
