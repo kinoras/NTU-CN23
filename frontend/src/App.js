@@ -1,23 +1,68 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link, Route, Routes, useLocation } from 'react-router-dom'
+import { ConfigProvider, Layout, Menu, theme } from 'antd'
+import { FontAwesomeIcon as FaIcon } from '@fortawesome/react-fontawesome'
+import { faComments, faUser } from '@fortawesome/free-regular-svg-icons'
+import locale from 'antd/locale/zh_TW'
+
+import ProfileView from './views/ProfileView'
+import ChatView from './views/ChatView'
 
 const App = () => {
+    const location = useLocation()
+
+    const [collapsed, setCollapsed] = useState(false)
+    const [currPage, setCurrPage] = useState('')
+
+    useEffect(() => {
+        setCurrPage(location.pathname.split('/')[1] ?? '')
+    }, [location.pathname])
+
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
+        <ConfigProvider
+            autoInsertSpaceInButton={false}
+            locale={locale}
+            theme={{
+                algorithm: theme.defaultAlgorithm,
+                token: { controlHeight: 36 }
+            }}
+        >
+            <Layout className="min-h-screen">
+                <Layout.Sider
+                    theme="light"
+                    collapsible
+                    collapsed={collapsed}
+                    onCollapse={(value) => setCollapsed(value)}
                 >
-                    Learn React
-                </a>
-            </header>
-        </div>
+                    <div className="demo-logo-vertical" />
+                    <Menu
+                        selectedKeys={[currPage]}
+                        mode="inline"
+                        className="p-1"
+                        items={[
+                            {
+                                icon: <FaIcon icon={faUser} className="-ml-0.5 w-5 text-base" />,
+                                label: <Link to="./profile">個人檔案</Link>,
+                                key: 'profile'
+                            },
+                            {
+                                icon: <FaIcon icon={faComments} className="-ml-0.5 w-5" />,
+                                label: <Link to="./chat">聊天室</Link>,
+                                key: 'chat'
+                            }
+                        ]}
+                    />
+                </Layout.Sider>
+                <Layout.Content className="p-4">
+                    <Routes>
+                        <Route path="/" element={<></>} />
+                        <Route path="/profile" element={<ProfileView />} />
+                        <Route path="/chat" element={<ChatView />} />
+                        <Route path="/chat/:id" element={<ChatView />} />
+                    </Routes>
+                </Layout.Content>
+            </Layout>
+        </ConfigProvider>
     )
 }
 
