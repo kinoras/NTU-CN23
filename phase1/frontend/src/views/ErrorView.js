@@ -15,7 +15,7 @@ const ErrorView = () => {
                 <br />
                 <Text type="secondary">如果你覺得這個 profile 長得像 facebook，那你是對的；</Text>
                 <br />
-                <Text type="secondary">如果你覺得這個 profile 的 code 長得像 faceebok，我想應該是不太可能的。</Text>
+                <Text type="secondary">如果你覺得這個 profile 的 code 長得像 facebook，我想應該是不太可能的。</Text>
             </Card>
         </div>
     )

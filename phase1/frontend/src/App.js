@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ConfigProvider, Layout, Menu, theme } from 'antd'
 import { orange as color } from '@ant-design/colors'
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/react-fontawesome'
-import { faComments, faMoon, faSun, faUser } from '@fortawesome/free-regular-svg-icons'
+import { faComments, faMoon, faStar, faSun, faUser } from '@fortawesome/free-regular-svg-icons'
 import locale from 'antd/locale/zh_TW'
 
 import ProfileView from './views/ProfileView'
@@ -54,6 +54,9 @@ const App = () => {
                                 icon: <FaIcon icon={faComments} className="-ml-0.5 w-5" />,
                                 label: <Link to="./chat">聊天室</Link>,
                                 key: 'chat'
+                            },
+                            {
+                                icon: <FaIcon icon={faStar} />
                             }
                         ]}
                     />
