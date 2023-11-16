@@ -137,6 +137,8 @@ dist
 */public/uploads
 */public/downloads
 
+**/build
+
 # Keys
 *.crt
 *.key
