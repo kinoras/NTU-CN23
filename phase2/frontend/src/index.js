@@ -1,14 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { HashRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { HashRouter as Router } from 'react-router-dom'
 
-import store from './helpers/store'
-
-import './index.css'
 import 'antd/dist/reset.css'
 
 import App from './App'
+import store from './helpers/store'
+import './index.css'
 import reportWebVitals from './reportWebVitals'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
