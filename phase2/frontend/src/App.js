@@ -7,9 +7,9 @@ import { FontAwesomeIcon as FaIcon } from '@fortawesome/react-fontawesome'
 import { faComments, faMoon, faStar, faSun, faUser } from '@fortawesome/free-regular-svg-icons'
 import locale from 'antd/locale/zh_TW'
 
-import ProfileView from './views/ProfileView'
-import ChatView from './views/ChatView'
-import ErrorView from './views/ErrorView'
+import ChatView from '@/views/ChatView'
+import ErrorView from '@/views/ErrorView'
+import ProfileView from '@/views/ProfileView'
 
 const App = () => {
     const location = useLocation()

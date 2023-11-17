@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
+
 import { Image, Typography, theme } from 'antd'
 
-import ProfileCard from '../containers/ProfileCard'
+import ProfileCard from '@/containers/ProfileCard'
 
-import TitledCard from '../components/TitledCard'
+import TitledCard from '@/components/TitledCard'
 
 const { Paragraph } = Typography
 
