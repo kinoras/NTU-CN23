@@ -1,19 +1,39 @@
 import React, { useEffect, useState } from 'react'
+
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Link, useLocation } from 'react-router-dom'
 
-import { ConfigProvider, Layout, Menu } from 'antd'
+import { ConfigProvider, Layout, Menu, theme } from 'antd'
 
 import Icon from '../components/Icon'
 
 import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/react-fontawesome'
 
-import { ReactComponent as LogoIcon } from '@/assets/PiTube_Red.svg'
-import { ReactComponent as LogoText } from '@/assets/PiTube_Text.svg'
+import { ReactComponent as _LogoIcon } from '@/assets/PiTube_Red.svg'
+import { ReactComponent as _LogoText } from '@/assets/PiTube_Text.svg'
+import { gray } from '@ant-design/colors'
+import UserInfoButton from './UserInfoButton'
+
+const LogoIcon = styled(_LogoIcon)`
+    .svg-red {
+        fill: ${(p) => p.$redColor} !important;
+    }
+    .svg-white {
+        fill: #ffffff;
+    }
+`
+
+const LogoText = styled(_LogoText)`
+    .svg-text {
+        fill: ${(p) => p.$textColor} !important;
+    }
+`
 
 const Sider = ({ isDarkMode, toggleDarkMode }) => {
     const location = useLocation()
+    const { token } = theme.useToken()
 
     const [collapsed, setCollapsed] = useState(false)
     const [currPage, setCurrPage] = useState('')
@@ -30,28 +50,26 @@ const Sider = ({ isDarkMode, toggleDarkMode }) => {
     return (
         <Layout.Sider theme="light" collapsible collapsed={collapsed} onCollapse={setCollapsed} className="p-1">
             {/* Home Button */}
-            <ConfigProvider
-                theme={{
-                    token: { controlHeight: 40 }
-                }}
-            >
+            <ConfigProvider theme={{ token: { controlHeight: 40, colorPrimary: gray[0] } }}>
                 <Menu
                     className="border-0"
                     selectedKeys={[]}
                     mode="inline"
                     items={[
                         {
-                            icon: <LogoIcon className="h-3.5 w-3.5 scale-[2]" />,
+                            icon: <LogoIcon $redColor={token.colorPrimary} className=" h-3.5 w-3.5 scale-[2]" />,
                             label: (
                                 <Link to="./">
-                                    <LogoText className="h-4 translate-x-[3.5px] translate-y-[2.75px]" />
+                                    <LogoText $textColor={token.colorText} className="h-4 translate-y-[2.75px]" />
                                 </Link>
                             ),
-                            key: 'theme'
+                            key: 'theme',
+                            title: null
                         }
                     ]}
                 />
             </ConfigProvider>
+
             {/* Menu Items */}
             <Menu
                 selectedKeys={[currPage]}
