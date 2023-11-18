@@ -79,14 +79,16 @@ const Sider = ({ isDarkMode, toggleDarkMode }) => {
                         <Icon
                             icon={icon}
                             size={14}
-                            weight={currPage === name && 'filled'}
-                            className="h-3.5 -translate-y-[1px] scale-150"
+                            weight={currPage === name ? 'filled' : 'normal-300'}
+                            className="h-3.5 -translate-y-[0.5px] scale-[1.75]"
                         />
                     ),
                     label: <Link to={`./${name}`}>{text}</Link>,
-                    key: name
+                    key: name,
+                    title: null
                 }))}
             />
+
             <Menu
                 selectedKeys={[]}
                 mode="inline"
