@@ -1,5 +1,21 @@
 // Functions
 
+const statusList = {
+    200: 'OK',
+    400: 'Bad Request',
+    401: 'Unauthorized',
+    403: 'Forbidden',
+    404: 'Not Found',
+    405: 'Method Not Allowed',
+    406: 'Not Acceptable',
+    408: 'Request Timeout',
+    409: 'Conflict',
+    410: 'Gone',
+    422: 'Unprocessable Content',
+    429: 'Too Many Requests',
+    500: 'Internal Server Error',
+}
+
 const parseHeader = (headerStrings) => {
     return headerStrings
         .map((s) => s.split(': '))
@@ -47,4 +63,33 @@ export const parseRequest = (requestString) => {
             token: null
         }
     }
+}
+
+const formStatusLine = (statusCode) => {
+    return `HTTP/1.1 ${statusCode} ${statusList[statusCode]}`
+}
+
+export const formResponse = (statusCode = 200, responseData) => {
+    const responseBody = JSON.stringify(responseData)
+    return [
+        formStatusLine(statusCode),
+        'Access-Control-Allow-Origin: *',
+        `Content-Type: application/json`,
+        `Content-Length: ${Buffer.from(responseBody).length}`,
+        '',
+        `${responseBody}` 
+    ].join('\r\n')
+}
+
+export const formOptionsResponse = () => {
+    return [
+        formStatusLine(200),
+        'Allow: OPTIONS, GET, POST, PUT, PATCH, DELETE',
+        'Access-Control-Allow-Origin: *',
+        'Access-Control-Allow-Headers: Content-Type, Authorization',
+        'Access-Control-Allow-Methods: *',
+        'Content-Length: 0',
+        '',
+        ''
+    ].join('\r\n')
 }
