@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken'
+
 // General
 
 export const exit = (errorString) => {
@@ -97,4 +99,15 @@ export const formOptionsResponse = () => {
         '',
         ''
     ].join('\r\n')
+}
+
+// Token
+
+export const decodeToken = (token) => {
+    try {
+        const { id: userId } = jwt.verify(token, process.env.JWT_SECRET)
+        return { valid: true, userId }
+    } catch ({ message }) {
+        return { valid: false, message }
+    }
 }
