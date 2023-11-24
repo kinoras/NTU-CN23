@@ -1,3 +1,10 @@
+// General
+
+export const exit = (errorString) => {
+    console.error(errorString)
+    process.exit(1)
+}
+
 // HTTP request
 
 const statusList = {
