@@ -44,7 +44,7 @@ const Sider = ({ isDarkMode, toggleDarkMode }) => {
 
     const menuItems = [
         { name: 'home', icon: 'home', text: '首頁' },
-        { name: 'subscription', icon: 'star', text: '訂閱頻道' }
+        { name: 'subscriptions', icon: 'star', text: '訂閱頻道' }
     ]
 
     return (

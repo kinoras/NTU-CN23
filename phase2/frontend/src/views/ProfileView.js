@@ -9,11 +9,9 @@ import TitledCard from '@/components/TitledCard'
 const { Paragraph } = Typography
 
 const ProfileView = () => {
-    const {
-        token: { colorBorder }
-    } = theme.useToken()
+    const { token } = theme.useToken()
 
-    const [activeTab, setActiveTab] = useState('about')
+    const [activeTab, setActiveTab] = useState('home')
 
     const userInfo = {
         id: 'b10902099',
@@ -40,15 +38,15 @@ const ProfileView = () => {
     }
 
     const tabItems = [
-        { key: 'about', label: '關於' },
-        { key: 'album', label: '相簿' },
-        { key: 'sns', label: '社群' }
+        { key: 'home', label: '首頁' },
+        { key: 'video', label: '影片' },
+        { key: 'podcast', label: 'Podcast' }
     ]
 
     return (
         <div className="mx-auto my-0 max-w-5xl">
             <ProfileCard userInfo={userInfo} tabItems={tabItems} activeTab={activeTab} setActiveTab={setActiveTab} />
-            {activeTab === 'about' && (
+            {activeTab === 'home' && (
                 <TitledCard title={`關於 ${userInfo.username}`}>
                     {(userInfo?.description ?? []).map((parag, i) => (
                         <Paragraph className="leading-relaxed last:mb-0" key={i}>
@@ -57,7 +55,7 @@ const ProfileView = () => {
                     ))}
                 </TitledCard>
             )}
-            {activeTab === 'album' && (
+            {activeTab === 'video' && (
                 <TitledCard title={`${userInfo.username} 的相片`}>
                     <Image.PreviewGroup
                         preview={{
@@ -69,7 +67,7 @@ const ProfileView = () => {
                             <div
                                 key={i}
                                 className="mb-3 mr-3 inline-flex overflow-hidden rounded-lg border border-solid"
-                                style={{ borderColor: colorBorder }}
+                                style={{ borderColor: token.colorBorder }}
                             >
                                 <Image src={image} className="aspect-square w-28" />
                             </div>
