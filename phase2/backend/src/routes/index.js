@@ -1,4 +1,7 @@
+import { verifyUser } from './user'
+
 const routeList = [
+    { method: 'POST', path: '/user/auth', handler: verifyUser }
 ]
 
 const router = async ({ method, path, token, query, body }) => {
