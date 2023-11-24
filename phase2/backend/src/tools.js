@@ -1,4 +1,4 @@
-// Functions
+// HTTP request
 
 const statusList = {
     200: 'OK',
@@ -13,13 +13,11 @@ const statusList = {
     410: 'Gone',
     422: 'Unprocessable Content',
     429: 'Too Many Requests',
-    500: 'Internal Server Error',
+    500: 'Internal Server Error'
 }
 
 const parseHeader = (headerStrings) => {
-    return headerStrings
-        .map((s) => s.split(': '))
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+    return headerStrings.map((s) => s.split(': ')).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 }
 
 const parseQueryString = (path) => {
@@ -32,6 +30,10 @@ const parseBody = (bodyString) => {
     } catch {
         return null
     }
+}
+
+const formStatusLine = (statusCode) => {
+    return `HTTP/1.1 ${statusCode} ${statusList[statusCode]}`
 }
 
 export const parseRequest = (requestString) => {
@@ -65,10 +67,6 @@ export const parseRequest = (requestString) => {
     }
 }
 
-const formStatusLine = (statusCode) => {
-    return `HTTP/1.1 ${statusCode} ${statusList[statusCode]}`
-}
-
 export const formResponse = (statusCode = 200, responseData) => {
     const responseBody = JSON.stringify(responseData)
     return [
@@ -77,7 +75,7 @@ export const formResponse = (statusCode = 200, responseData) => {
         `Content-Type: application/json`,
         `Content-Length: ${Buffer.from(responseBody).length}`,
         '',
-        `${responseBody}` 
+        `${responseBody}`
     ].join('\r\n')
 }
 
