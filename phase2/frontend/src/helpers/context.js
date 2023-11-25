@@ -17,7 +17,7 @@ const ContextProvider = ({ children }) => {
 
     const get = async (path, query) => {
         const queryString = new URLSearchParams(query).toString()
-        const response = await fetch(`${API_ROOT}${path}?${queryString}`, { method: 'GET', headers })
+        const response = await fetch(`${API_ROOT}/api${path}?${queryString}`, { method: 'GET', headers })
         const json = await response.json()
         if (!response.ok) throw json
         return json
@@ -25,7 +25,7 @@ const ContextProvider = ({ children }) => {
 
     const post = async (path, bodyObj) => {
         const body = JSON.stringify(bodyObj)
-        const response = await fetch(`${API_ROOT}${path}`, { method: 'POST', headers, body })
+        const response = await fetch(`${API_ROOT}/api${path}`, { method: 'POST', headers, body })
         const json = await response.json()
         if (!response.ok) throw json
         return json
