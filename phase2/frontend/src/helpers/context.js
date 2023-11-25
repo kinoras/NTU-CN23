@@ -8,7 +8,7 @@ const GlobalContext = createContext()
 const API_ROOT = `http://${window.location.host.replace(':3000', ':4000')}`
 
 const ContextProvider = ({ children }) => {
-    const { token } = useSelector((state) => state.auth) ?? ''
+    const token = useSelector((state) => state.userToken) ?? ''
 
     const headers = {
         'Content-Type': 'application/json',
