@@ -18,13 +18,13 @@ export const verifyUser = async ({ credential }) => {
         const { name, picture: avatar, email } = userTicket.getPayload()
 
         // Verify CSIE student
-        if (!email.endsWith('@csie.ntu.edu.tw')) {
-            return {
-                status: 403,
-                messaage: 'error',
-                error: 4031
-            }
-        }
+        // if (!email.endsWith('@csie.ntu.edu.tw')) {
+        //     return {
+        //         status: 403,
+        //         messaage: 'error',
+        //         error: 4033
+        //     }
+        // }
 
         // Insert or get user info
         const stuid = email.split('@')[0]
