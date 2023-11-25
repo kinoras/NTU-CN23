@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
 
 // General
 
@@ -106,7 +107,7 @@ export const formOptionsResponse = () => {
 export const decodeToken = (token) => {
     try {
         const { id: userId } = jwt.verify(token, process.env.JWT_SECRET)
-        return { valid: true, userId }
+        return { valid: true, userId, _id: new mongoose.Types.ObjectId(userId) }
     } catch ({ message }) {
         return { valid: false, message }
     }

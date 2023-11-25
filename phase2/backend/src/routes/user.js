@@ -1,6 +1,5 @@
 import { OAuth2Client } from 'google-auth-library'
 import jwt from 'jsonwebtoken'
-import mongoose from 'mongoose'
 
 import { decodeToken } from '../tools'
 import User from '../models/user'
@@ -55,9 +54,10 @@ export const verifyUser = async ({ credential }) => {
     }
 }
 
-export const getUser = async ({ stuid: _stuid }, token) => {
+export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) => {
     try {
-        const { valid, userId } = decodeToken(token)
+        // Check params
+        const { valid, _id } = decodeToken(token)
         if (!_stuid && !valid) {
             return {
                 status: 422,
@@ -65,9 +65,10 @@ export const getUser = async ({ stuid: _stuid }, token) => {
                 error: 4221
             }
         }
-        const userInfo = (_stuid)
-            ? await User.findOne({ _stuid })
-            : await User.findOne({ _id: new mongoose.Types.ObjectId(userId) })
+
+        // Search target user
+        const self = !_stuid
+        const userInfo = self ? await User.findOne({ _id }) : await User.findOne({ stuid: _stuid })
         if (!userInfo) {
             return {
                 status: 404,
