@@ -18,10 +18,10 @@ const Avatar = ({ avatar, size, ...otherProps }) => {
             size={size}
             src={
                 <Image
-                    src={avatar.small}
+                    src={avatar}
                     preview={{
                         toolbarRender: () => {},
-                        imageRender: () => <img src={avatar.fullSize} />
+                        imageRender: () => <img src={avatar} />
                     }}
                 />
             }
@@ -31,12 +31,12 @@ const Avatar = ({ avatar, size, ...otherProps }) => {
 }
 
 Avatar.propTypes = {
-    avatar: PropTypes.object,
+    avatar: PropTypes.string,
     size: PropTypes.number
 }
 
 Avatar.defaultProps = {
-    avatar: { small: '', fullSize: '' },
+    avatar: '',
     size: 80
 }
 
