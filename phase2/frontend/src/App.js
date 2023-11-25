@@ -39,7 +39,6 @@ const App = () => {
                     <Content className="p-4">
                         <Routes>
                             <Route path="/" element={<ProfileView />} />
-                            <Route path="/home" element={<ProfileView />} />
                             <Route path="/subscription" element={<ChatView />} />
                             <Route path="/subscription/:id" element={<ChatView />} />
                             <Route path="*" element={<ErrorView />} />
