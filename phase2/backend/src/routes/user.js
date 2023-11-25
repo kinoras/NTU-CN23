@@ -55,18 +55,18 @@ export const verifyUser = async ({ credential }) => {
     }
 }
 
-export const getUser = async ({ stuid }, token) => {
+export const getUser = async ({ stuid: _stuid }, token) => {
     try {
         const { valid, userId } = decodeToken(token)
-        if (!stuid && !valid) {
+        if (!_stuid && !valid) {
             return {
                 status: 422,
                 message: 'error',
                 error: 4221
             }
         }
-        const userInfo = (stuid)
-            ? await User.findOne({ stuid })
+        const userInfo = (_stuid)
+            ? await User.findOne({ _stuid })
             : await User.findOne({ _id: new mongoose.Types.ObjectId(userId) })
         if (!userInfo) {
             return {
@@ -75,7 +75,7 @@ export const getUser = async ({ stuid }, token) => {
                 error: 4043
             }
         }
-        const { email, name, avatar } = userInfo
+        const { stuid, email, name, avatar } = userInfo
         return {
             status: 200,
             messaage: 'success',
