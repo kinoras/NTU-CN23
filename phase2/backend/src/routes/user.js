@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import { decodeToken, errorMessage } from '../tools'
 
 import User from '../models/user'
+import Subscription from '../models/subscription'
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const client = new OAuth2Client()
@@ -15,7 +16,8 @@ export const verifyUser = async ({ credential }) => {
             idToken: credential,
             audience: GOOGLE_CLIENT_ID
         })
-        const { name, picture: avatar, email } = userTicket.getPayload()
+        const { name, picture: _avatar, email } = userTicket.getPayload()
+        const avatar = _avatar.replace('=s96-c', '=s256-c')
 
         // Verify CSIE student
         // if (!email.endsWith('@csie.ntu.edu.tw')) {
@@ -61,12 +63,17 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
             return errorMessage(4043)
         }
 
+        // Get subscription info
+        const subscribed = !!(_id && await Subscription.exists({ creator: userInfo?._id, subscriber: _id }))
+
         // Return user info
         const { stuid, email, name, avatar } = userInfo
         return {
             status: 200,
             messaage: 'success',
-            user: { stuid, email, name, avatar }
+            user: { stuid, email, name, avatar, subscribed },
+            videos: [],
+            podcasts: []
         }
     } catch (error) {
         return errorMessage(5001, error)
