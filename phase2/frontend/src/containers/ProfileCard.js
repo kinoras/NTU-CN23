@@ -1,7 +1,5 @@
 import React from 'react'
 import { Button, Card, Divider, Flex, Tabs as _Tabs, Typography, theme } from 'antd'
-import { FontAwesomeIcon as FaIcon } from '@fortawesome/react-fontawesome'
-import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -50,7 +48,6 @@ const ProfileCard = ({ userInfo, tabItems, activeTab, setActiveTab }) => {
                         </Text>
                     </Typography>
                     <Button>
-                        <FaIcon icon={faPencil} className="mr-2" />
                         <span>編輯個人檔案</span>
                     </Button>
                 </Flex>
