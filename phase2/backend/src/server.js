@@ -21,11 +21,10 @@ const server = net.createServer((socket) => {
         if (method === 'OPTIONS') {
             socket.write(formOptionsResponse())
         } else {
-            const { status, ...respond } = await router({ method, path, token, query, body })
+            const { status, ...respond } = (await router({ method, path, token, query, body })) ?? {}
             socket.write(formResponse(status ?? 500, respond))
-            // console.log(parseRequest(data.toString()))
         }
-        // socket.end()
+        socket.end()
     })
 
     socket.on('end', () => console.log('Client disconnected'))
