@@ -9,8 +9,8 @@ import Sider from './containers/Sider'
 
 import { volcano as color } from '@ant-design/colors'
 
-import ChatView from '@/views/ChatView'
 import ErrorView from '@/views/ErrorView'
+import HomeView from './views/HomeView'
 import ProfileView from '@/views/ProfileView'
 import GlobalProvider from '@/helpers/context'
 
@@ -38,9 +38,9 @@ const App = () => {
                     <Sider isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
                     <Content className="p-4">
                         <Routes>
-                            <Route path="/" element={<ProfileView />} />
-                            <Route path="/subscription" element={<ChatView />} />
-                            <Route path="/subscription/:id" element={<ChatView />} />
+                            <Route path="/" element={<HomeView />} />
+                            <Route path="/channel/:id" element={<ProfileView />} />
+                            <Route path="/channel/:id/:tab" element={<ProfileView />} />
                             <Route path="*" element={<ErrorView />} />
                         </Routes>
                     </Content>
