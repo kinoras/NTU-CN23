@@ -31,7 +31,27 @@ const ContextProvider = ({ children }) => {
         return json
     }
 
-    return <GlobalContext.Provider value={{ connect: { get, post } }}>{children}</GlobalContext.Provider>
+    const put = async (path, bodyObj) => {
+        const body = JSON.stringify(bodyObj)
+        const response = await fetch(`${API_ROOT}/api${path}`, { method: 'PUT', headers, body })
+        const json = await response.json()
+        if (!response.ok) throw json
+        return json
+    }
+
+    const _delete = async (path, query) => {
+        const queryString = new URLSearchParams(query).toString()
+        const response = await fetch(`${API_ROOT}/api${path}?${queryString}`, { method: 'DELETE', headers })
+        const json = await response.json()
+        if (!response.ok) throw json
+        return json
+    }
+
+    return (
+        <GlobalContext.Provider value={{ connect: { get, post, put, delete: _delete } }}>
+            {children}
+        </GlobalContext.Provider>
+    )
 }
 
 ContextProvider.propTypes = {
