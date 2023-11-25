@@ -8,6 +8,16 @@ export const exit = (errorString) => {
     process.exit(1)
 }
 
+export const errorMessage = (errorCode, error) => {
+    if (typeof errorCode !== 'number' || isNaN(errorCode)) {
+        return { status: 500, message: 'error', error: errorCode }
+    } else {
+        const status = Math.floor(errorCode / 10)
+        if (status === 500 && error) console.log(error)
+        return { status, message: 'error', error: errorCode }
+    }
+}
+
 // HTTP request
 
 const statusList = {

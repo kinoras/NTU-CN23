@@ -1,7 +1,8 @@
 import { OAuth2Client } from 'google-auth-library'
 import jwt from 'jsonwebtoken'
 
-import { decodeToken } from '../tools'
+import { decodeToken, errorMessage } from '../tools'
+
 import User from '../models/user'
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
@@ -18,11 +19,7 @@ export const verifyUser = async ({ credential }) => {
 
         // Verify CSIE student
         // if (!email.endsWith('@csie.ntu.edu.tw')) {
-        //     return {
-        //         status: 403,
-        //         messaage: 'error',
-        //         error: 4033
-        //     }
+        //     return errorMessage(4033)
         // }
 
         // Insert or get user info
@@ -45,12 +42,7 @@ export const verifyUser = async ({ credential }) => {
             }
         }
     } catch (error) {
-        console.log(error)
-        return {
-            status: 500,
-            messaage: 'error',
-            error: 5003
-        }
+        return errorMessage(5003, error)
     }
 }
 
@@ -59,23 +51,17 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
         // Check params
         const { valid, _id } = decodeToken(token)
         if (!_stuid && !valid) {
-            return {
-                status: 422,
-                message: 'error',
-                error: 4221
-            }
+            return errorMessage(4221)
         }
 
         // Search target user
         const self = !_stuid
         const userInfo = self ? await User.findOne({ _id }) : await User.findOne({ stuid: _stuid })
         if (!userInfo) {
-            return {
-                status: 404,
-                messaage: 'error',
-                error: 4043
-            }
+            return errorMessage(4043)
         }
+
+        // Return user info
         const { stuid, email, name, avatar } = userInfo
         return {
             status: 200,
@@ -83,11 +69,6 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
             user: { stuid, email, name, avatar }
         }
     } catch (error) {
-        console.log(error)
-        return {
-            status: 500,
-            messaage: 'error',
-            error: 5001
-        }
+        return errorMessage(5001, error)
     }
 }

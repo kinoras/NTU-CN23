@@ -1,4 +1,4 @@
-import { decodeToken } from '../tools'
+import { decodeToken, errorMessage } from '../tools'
 
 import { verifyUser, getUser } from './user'
 
@@ -15,21 +15,13 @@ const router = async ({ method, path, token, query, body }) => {
 
     // Return error if route not found
     if (!targetRoute || !targetRoute?.handler) {
-        return {
-            status: 404,
-            message: 'error',
-            error: 4041
-        }
+        return errorMessage(4041)
     }
 
     // Check token
     const { valid, _id } = decodeToken(token)
     if (targetRoute?.auth && !valid) {
-        return {
-            status: 401,
-            message: 'error',
-            error: 4011
-        }
+        return errorMessage(4011)
     }
 
     // Call handler for the route
