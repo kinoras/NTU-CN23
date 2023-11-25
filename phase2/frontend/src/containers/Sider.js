@@ -110,6 +110,8 @@ const Sider = ({ isDarkMode, toggleDarkMode }) => {
                         }
                     ]}
                 />
+
+                <UserInfoButton />
             </div>
         </Layout.Sider>
     )
