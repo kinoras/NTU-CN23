@@ -5,7 +5,7 @@ const routeList = [
 ]
 
 const router = async ({ method, path, token, query, body }) => {
-    const targetRoute = routeList.find((route) => route.method === method && route.path === path)
+    const targetRoute = routeList.find((r) => r.method === method && r.path === path)
 
     if (!targetRoute || !targetRoute.handler) {
         return { status: 404, message: 'error', error: 4041 }

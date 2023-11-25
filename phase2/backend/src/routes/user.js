@@ -25,7 +25,7 @@ export const verifyUser = async ({ credential }) => {
         }
 
         // Insert or get user info
-        const stuid = email.replace('@csie.ntu.edu.tw', '')
+        const stuid = email.split('@')[0]
         const userInfo = await User.findOneAndUpdate(
             { email },
             { $setOnInsert: { name, avatar, email, stuid } },
