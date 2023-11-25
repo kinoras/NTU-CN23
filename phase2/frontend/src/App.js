@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
 
 import { ConfigProvider, Layout, theme } from 'antd'
@@ -18,11 +18,6 @@ const { Content } = Layout
 
 const App = () => {
     const isDarkMode = useSelector((state) => state.isDarkMode)
-    const dispatch = useDispatch()
-
-    const toggleDarkMode = () => {
-        dispatch({ type: 'SET_THEME', value: !isDarkMode })
-    }
 
     return (
         <ConfigProvider
@@ -35,7 +30,7 @@ const App = () => {
         >
             <GlobalProvider>
                 <Layout className="min-h-screen">
-                    <Sider isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+                    <Sider />
                     <Content className="p-4">
                         <Routes>
                             <Route path="/" element={<HomeView />} />

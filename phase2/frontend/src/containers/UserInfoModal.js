@@ -61,6 +61,14 @@ const UserInfoModal = ({ open, onClose }) => {
         ],
         [
             {
+                icon: isDarkMode ? 'dark_mode' : 'light_mode',
+                iconScale: 1.55,
+                label: isDarkMode ? '深色主題' : '淺色主題',
+                handler: () => dispatch({ type: 'SET_THEME', value: !isDarkMode })
+            }
+        ],
+        [
+            {
                 icon: 'logout',
                 iconScale: 1.75,
                 label: '登出',

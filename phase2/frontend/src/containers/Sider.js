@@ -5,7 +5,6 @@ import { ConfigProvider, Layout, Menu, theme } from 'antd'
 
 import Icon from '../components/Icon'
 import UserInfoButton from './UserInfoButton'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { gray } from '@ant-design/colors'
@@ -28,7 +27,7 @@ const LogoText = styled(_LogoText)`
     }
 `
 
-const Sider = ({ isDarkMode, toggleDarkMode }) => {
+const Sider = () => {
     const location = useLocation()
     const { token } = theme.useToken()
 
@@ -90,46 +89,10 @@ const Sider = ({ isDarkMode, toggleDarkMode }) => {
 
                 <div className="flex-1" />
 
-                <Menu
-                    className="border-0"
-                    selectedKeys={[]}
-                    mode="inline"
-                    onSelect={toggleDarkMode}
-                    items={[
-                        {
-                            icon: (
-                                <Icon
-                                    icon={isDarkMode ? 'dark_mode' : 'light_mode'}
-                                    size={14}
-                                    className="h-3.5 scale-150"
-                                />
-                            ),
-                            label: '切換主題',
-                            key: 'theme',
-                            title: null
-                        }
-                    ]}
-                />
-
                 <UserInfoButton />
             </div>
         </Layout.Sider>
     )
-}
-
-Sider.propTypes = {
-    // userInfo: PropTypes.object.isRequired,
-    // tabItems: PropTypes.array,
-    // activeTab: PropTypes.string,
-    isDarkMode: PropTypes.bool,
-    toggleDarkMode: PropTypes.func
-}
-
-Sider.defaultProps = {
-    // tabItems: [],
-    // activeTab: 'about',
-    isDarkMode: false,
-    toggleDarkMode: () => {}
 }
 
 export default Sider
