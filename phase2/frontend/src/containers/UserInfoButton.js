@@ -1,35 +1,21 @@
-import { useGlobalContext } from '@/helpers/context'
-
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 
-import { Button, ConfigProvider, Divider, Menu, Typography, Modal as _Modal, theme } from 'antd'
-
-import styled from 'styled-components'
+import { ConfigProvider, Menu } from 'antd'
 
 import { gray } from '@ant-design/colors'
 
+import { useGlobalContext } from '@/helpers/context'
+
 import Icon from '@/components/Icon'
-
-const { Title, Text } = Typography
-
-const Modal = styled(_Modal)`
-    .ant-modal-content {
-        border-radius: 1rem !important;
-        padding: 16px;
-    }
-`
+import UserInfoModal from './UserInfoModal'
 
 const UserInfoButton = () => {
-    const navigate = useNavigate()
     const dispatch = useDispatch()
     const userToken = useSelector((state) => state.userToken) ?? ''
     const userInfo = useSelector((state) => state.userInfo) ?? ''
+
     const { connect } = useGlobalContext()
-    const {
-        token: { colorBorder }
-    } = theme.useToken()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -92,18 +78,9 @@ const UserInfoButton = () => {
 
     /* button click handler */
     const handleUserAction = ({ key }) => {
-        switch (key) {
-            case 'user-info':
-                setIsModalOpen(true)
-                break
-            case 'sign-in':
-                gisObject.click()
-                break
-            case 'sign-out':
-                dispatch({ type: 'SET_TOKEN', value: null })
-                dispatch({ type: 'SET_USER', value: {} })
-                break
-        }
+        (key === 'sign-in')
+            ? gisObject.click()
+            : setIsModalOpen(true)
     }
 
     const menuItems = [
@@ -121,38 +98,6 @@ const UserInfoButton = () => {
         }
     ]
 
-    const modalItems = [
-        [
-            {
-                icon: 'person',
-                iconScale: 1.75,
-                label: '我的頻道主頁',
-                handler: () => navigate(`/channel/@${userInfo?.stuid}`)
-            },
-            {
-                icon: 'movie',
-                iconScale: 1.55,
-                label: '我的影片',
-                handler: () => navigate(`/channel/@${userInfo?.stuid}/videos`)
-            },
-            {
-                icon: 'podcasts',
-                iconScale: 1.55,
-                label: '我的 Podcast',
-                handler: () => navigate(`/channel/@${userInfo?.stuid}/podcasts`)
-            }
-        ],
-        [
-            {
-                icon: 'logout',
-                iconScale: 1.75,
-                label: '登出',
-                handler: () => handleUserAction({ key: 'sign-out' }),
-                props: { danger: true }
-            }
-        ]
-    ]
-
     return (
         <>
             <ConfigProvider theme={{ token: { controlHeight: 40, colorPrimary: gray[0] } }}>
@@ -164,55 +109,7 @@ const UserInfoButton = () => {
                     items={[menuItems[userToken ? 0 : 1]]}
                 />
             </ConfigProvider>
-            <Modal
-                open={isModalOpen}
-                onCancel={() => setIsModalOpen(false)}
-                width={280}
-                centered={true}
-                closeIcon={null}
-                footer={null}
-            >
-                <div className="py-2 text-center">
-                    <img
-                        src={userInfo?.avatar}
-                        className="mb-3 h-14 w-14 rounded-full border"
-                        style={{ borderColor: colorBorder }}
-                    />
-                    <Title level={4} className="m-0 leading-7">
-                        {userInfo?.name}
-                    </Title>
-                    <Text type="secondary">@{userInfo?.stuid}</Text>
-                </div>
-                {modalItems.map((group, index) => (
-                    <Fragment key={index}>
-                        <Divider className="my-2" />
-                        {group.map(({ icon, iconScale, label, handler, props }) => (
-                            <Button
-                                key={`${icon}-${label}`}
-                                className="mt-1 flex items-center px-3"
-                                type="text"
-                                block
-                                icon={
-                                    <Icon
-                                        icon={icon}
-                                        size={14}
-                                        weight="normal-300"
-                                        className="mr-1.5"
-                                        style={{ transform: `scale(${iconScale})` }}
-                                    />
-                                }
-                                onClick={() => {
-                                    handler()
-                                    setIsModalOpen(false)
-                                }}
-                                {...props}
-                            >
-                                {label}
-                            </Button>
-                        ))}
-                    </Fragment>
-                ))}
-            </Modal>
+            <UserInfoModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </>
     )
 }
