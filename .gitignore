@@ -138,6 +138,9 @@ dist
 */public/downloads
 
 **/build
+**/public/queue
+**/public/video
+**/public/audio
 
 # Keys
 *.crt
