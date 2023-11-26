@@ -100,29 +100,43 @@ export const parseRequest = (requestString) => {
     }
 }
 
-export const formResponse = (statusCode = 200, responseData) => {
-    const responseBody = JSON.stringify(responseData)
-    return [
-        formStatusLine(statusCode),
-        'Access-Control-Allow-Origin: *',
-        `Content-Type: application/json`,
-        `Content-Length: ${Buffer.from(responseBody).length}`,
-        '',
-        `${responseBody}`
-    ].join('\r\n')
-}
-
-export const formOptionsResponse = () => {
-    return [
-        formStatusLine(200),
-        'Allow: OPTIONS, GET, POST, PUT, PATCH, DELETE',
-        'Access-Control-Allow-Origin: *',
-        'Access-Control-Allow-Headers: Content-Type, Authorization',
-        'Access-Control-Allow-Methods: *',
-        'Content-Length: 0',
-        '',
-        ''
-    ].join('\r\n')
+export const formResponse = {
+    api: (statusCode = 500, responseData) => {
+        const responseBody = JSON.stringify(responseData)
+        return [
+            formStatusLine(statusCode),
+            'Access-Control-Allow-Origin: *',
+            'Connection: keep-alive',
+            `Content-Type: application/json`,
+            `Content-Length: ${Buffer.from(responseBody).length}`,
+            '',
+            `${responseBody}`
+        ].join('\r\n')
+    },
+    mediaHeader: (statusCode = 500, type, content) => {
+        return [
+            formStatusLine(statusCode),
+            'Access-Control-Allow-Origin: *',
+            'Accept-Ranges: bytes',
+            'Connection: keep-alive',
+            `Content-Type: ${type}`,
+            `Content-Length: ${Buffer.from(content).length}`,
+            '',
+            ''
+        ].join('\r\n')
+    },
+    options: () => {
+        return [
+            formStatusLine(200),
+            'Allow: OPTIONS, GET, POST, PUT, PATCH, DELETE',
+            'Access-Control-Allow-Origin: *',
+            'Access-Control-Allow-Headers: Content-Type, Authorization',
+            'Access-Control-Allow-Methods: *',
+            'Content-Length: 0',
+            '',
+            ''
+        ].join('\r\n')
+    }
 }
 
 // Video processing

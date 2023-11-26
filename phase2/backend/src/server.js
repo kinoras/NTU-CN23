@@ -3,31 +3,39 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
 import router from './routes'
-import { exit, parseRequest, formResponse, formOptionsResponse } from './tools'
+import finder from './finder'
+import { exit, parseRequest, formResponse } from './tools'
 
-/* environment config */
+/* Environment config */
 dotenv.config()
 
-/* environment check */
+/* Environment check */
 if (!process.env.MONGO_URL) exit('Missing MONGO_URL!')
 
-/* socket server */
+/* Socket server */
 const server = net.createServer((socket) => {
-    // console.log('Client connected')
-
     socket.on('data', async (data) => {
         const { method, path, token, query, body } = parseRequest(data.toString())
 
         if (method === 'OPTIONS') {
-            socket.write(formOptionsResponse())
+            // Preflight request
+            socket.write(formResponse.options())
+        } else if (path?.startsWith('/media/')) {
+            // Media request
+            const { status, type, content, ...response } = await finder({ method, path })
+            if (status === 200) {
+                socket.write(formResponse.mediaHeader(status, type, content))
+                socket.write(content)
+            } else {
+                socket.write(formResponse.api(status, response))
+            }
         } else {
-            const { status, ...respond } = (await router({ method, path, token, query, body })) ?? {}
-            socket.write(formResponse(status ?? 500, respond))
+            //
+            const { status, ...response } = (await router({ method, path, token, query, body })) ?? {}
+            socket.write(formResponse.api(status, response))
         }
-        socket.end()
+        // socket.end()
     })
-
-    // socket.on('end', () => console.log('Client disconnected'))
     socket.on('error', (error) => console.log(error))
 })
 
