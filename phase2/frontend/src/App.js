@@ -6,13 +6,14 @@ import { ConfigProvider, Layout, theme } from 'antd'
 import locale from 'antd/locale/zh_TW'
 
 import Sider from './containers/Sider'
+import HomeView from './views/HomeView'
 
 import { volcano as color } from '@ant-design/colors'
 
-import ErrorView from '@/views/ErrorView'
-import HomeView from './views/HomeView'
-import ProfileView from '@/views/ProfileView'
 import GlobalProvider from '@/helpers/context'
+
+import ErrorView from '@/views/ErrorView'
+import ProfileView from '@/views/ProfileView'
 
 const { Content } = Layout
 
@@ -34,8 +35,8 @@ const App = () => {
                     <Content className="p-4">
                         <Routes>
                             <Route path="/" element={<HomeView />} />
-                            <Route path="/channel/:id" element={<ProfileView />} />
-                            <Route path="/channel/:id/:tab" element={<ProfileView />} />
+                            <Route path="/channel/:stuid" element={<ProfileView />} />
+                            <Route path="/channel/:stuid/:tab" element={<ProfileView />} />
                             <Route path="*" element={<ErrorView />} />
                         </Routes>
                     </Content>
