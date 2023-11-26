@@ -13,7 +13,7 @@ if (!process.env.MONGO_URL) exit('Missing MONGO_URL!')
 
 /* socket server */
 const server = net.createServer((socket) => {
-    console.log('Client connected')
+    // console.log('Client connected')
 
     socket.on('data', async (data) => {
         const { method, path, token, query, body } = parseRequest(data.toString())
@@ -27,7 +27,7 @@ const server = net.createServer((socket) => {
         socket.end()
     })
 
-    socket.on('end', () => console.log('Client disconnected'))
+    // socket.on('end', () => console.log('Client disconnected'))
     socket.on('error', (error) => console.log(error))
 })
 

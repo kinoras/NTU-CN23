@@ -18,6 +18,17 @@ export const errorMessage = (errorCode, error) => {
     }
 }
 
+// Token
+
+export const decodeToken = (token) => {
+    try {
+        const { id: userId } = jwt.verify(token, process.env.JWT_SECRET)
+        return { valid: true, userId, _id: new mongoose.Types.ObjectId(userId) }
+    } catch ({ message }) {
+        return { valid: false, message }
+    }
+}
+
 // HTTP request
 
 const statusList = {
@@ -112,13 +123,5 @@ export const formOptionsResponse = () => {
     ].join('\r\n')
 }
 
-// Token
 
-export const decodeToken = (token) => {
-    try {
-        const { id: userId } = jwt.verify(token, process.env.JWT_SECRET)
-        return { valid: true, userId, _id: new mongoose.Types.ObjectId(userId) }
-    } catch ({ message }) {
-        return { valid: false, message }
-    }
 }
