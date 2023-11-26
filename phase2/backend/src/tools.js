@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
+import path from 'path'
+import ffmpeg from 'fluent-ffmpeg'
 
 // General
 
@@ -123,5 +125,27 @@ export const formOptionsResponse = () => {
     ].join('\r\n')
 }
 
+// Video processing
 
+export const convertHls = async (filename, height) => {
+    return new Promise((resolve, reject) => {
+        const objectId = new mongoose.Types.ObjectId()
+        const width = Math.floor((height / 9) * 16)
+        const srcPath = path.join(__dirname, `../public/queue/${filename}`)
+        const destPath = path.join(__dirname, `../public/video/${objectId}.m3u8`)
+        ffmpeg(srcPath, { timeout: 432000 })
+            .addOptions([
+                '-profile:v baseline',
+                '-level 3.0',
+                `-s ${width}x${height}`,
+                '-start_number 0',
+                '-hls_time 10',
+                '-hls_list_size 0',
+                '-f hls'
+            ])
+            .output(destPath)
+            .on('end', () => resolve(objectId))
+            .on('error', (err) => reject(err))
+            .run()
+    })
 }
