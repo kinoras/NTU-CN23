@@ -1,7 +1,7 @@
+import ffmpeg from 'fluent-ffmpeg'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
 import path from 'path'
-import ffmpeg from 'fluent-ffmpeg'
 
 // General
 
@@ -148,20 +148,25 @@ export const convertHls = async (filename, height) => {
         const srcPath = path.join(__dirname, `../public/queue/${filename}`)
         const destDir = path.join(__dirname, `../public/video`)
         const destFile = path.join(destDir, `${objectId}-%04d.ts`)
-        ffmpeg(srcPath, { timeout: 432000 })
-            .addOptions([
-                '-profile:v baseline',
-                '-level 3.0',
-                `-s ${width}x${height}`,
-                '-start_number 0',
-                '-hls_time 10',
-                '-hls_list_size 0',
-                `-hls_segment_filename ${destFile}`,
-                '-f hls'
-            ])
-            .output(path.join(destDir, `${objectId}.m3u8`))
-            .on('end', () => resolve(objectId))
-            .on('error', (err) => reject(err))
-            .run()
+        ffmpeg.ffprobe(srcPath, (err, metadata) => {
+            const duration = metadata?.format?.duration
+            console.log(metadata)
+            if (err) reject(err)
+            ffmpeg(srcPath, { timeout: 432000 })
+                .addOptions([
+                    '-profile:v baseline',
+                    '-level 3.0',
+                    `-s ${width}x${height}`,
+                    '-start_number 0',
+                    '-hls_time 10',
+                    '-hls_list_size 0',
+                    `-hls_segment_filename ${destFile}`,
+                    '-f hls'
+                ])
+                .output(path.join(destDir, `${objectId}.m3u8`))
+                .on('end', () => resolve({ _id: objectId, duration }))
+                .on('error', (err) => reject(err))
+                .run()
+        })
     })
 }

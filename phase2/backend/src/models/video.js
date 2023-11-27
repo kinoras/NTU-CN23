@@ -6,8 +6,8 @@ const VideoSchema = Schema(
     {
         title: { type: String, required: true },
         description: { type: String, default: '' },
-        creator: { type: mongoose.Types.ObjectId, ref: 'User' },
-        comments: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }]
+        duration: { type: Number, default: 0 },
+        creator: { type: mongoose.Types.ObjectId, ref: 'User' }
     },
     {
         collection: 'Video',

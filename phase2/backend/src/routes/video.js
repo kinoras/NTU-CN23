@@ -40,12 +40,13 @@ export const getVideo = async ({ videoId }, _, _id) => {
 
 export const createVideo = async ({ title, description, filename }, _, creator) => {
     try {
-        const _id = await convertHls(filename, 720)
-        await new Video({ _id, title, description, creator }).save()
+        const { _id, duration } = await convertHls(filename, 720)
+        await new Video({ _id, title, description, duration, creator }).save()
+        console.log(duration)
         return {
             status: 200,
             message: 'success',
-            videoId: _id
+            video: { _id, duration }
         }
     } catch (error) {
         return errorMessage(5001, error)
