@@ -1,10 +1,10 @@
+import Subscription from '../models/subscription'
+import User from '../models/user'
+import Video from '../models/video'
+import { decodeToken, errorMessage } from '../tools'
 import { OAuth2Client } from 'google-auth-library'
 import jwt from 'jsonwebtoken'
-
-import { decodeToken, errorMessage } from '../tools'
-
-import User from '../models/user'
-import Subscription from '../models/subscription'
+import path from 'path'
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const client = new OAuth2Client()
@@ -56,6 +56,12 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
             return errorMessage(4221)
         }
 
+        // Construct return object
+        const returnObject = {
+            status: 200,
+            messaage: 'success'
+        }
+
         // Search target user
         const self = !_stuid
         const userInfo = self ? await User.findOne({ _id }) : await User.findOne({ stuid: _stuid })
@@ -63,18 +69,24 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
             return errorMessage(4043)
         }
 
-        // Get subscription info
-        const subscribed = !!(_id && await Subscription.exists({ creator: userInfo?._id, subscriber: _id }))
+        // Append user info
+        const subscribed = !!(_id && (await Subscription.exists({ creator: userInfo?._id, subscriber: _id })))
+        const { _id: userId, stuid, email, name, avatar } = userInfo
+        returnObject.user = { stuid, email, name, avatar, subscribed }
 
-        // Return user info
-        const { stuid, email, name, avatar } = userInfo
-        return {
-            status: 200,
-            messaage: 'success',
-            user: { stuid, email, name, avatar, subscribed },
-            videos: [],
-            podcasts: []
+        if (videos) {
+            const videoList = await Video.find({ creator: userId })
+            returnObject.videos = videoList.map(({ _id, title, description, duration, createdAt }) => ({
+                _id,
+                title,
+                description,
+                duration,
+                thumbnail: path.join('/media/image', `${_id}.png`),
+                createdAt
+            }))
         }
+
+        return returnObject
     } catch (error) {
         return errorMessage(5001, error)
     }
