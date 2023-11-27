@@ -26,7 +26,6 @@ const ProfileView = () => {
             const stuid = _stuid.replace('@', '')
             const result = await connect.get('/user', { stuid, videos: true, podcasts: true })
             setChannelInfo(result)
-            console.log(result)
         } catch (error) {
             console.log(error)
         }
@@ -48,7 +47,6 @@ const ProfileView = () => {
 
     return (
         <div className="mx-auto my-0 max-w-5xl">
-            {JSON.stringify(channelInfo?.user)}
             <ProfileCard
                 userInfo={channelInfo?.user ?? {}}
                 tabItems={tabItems}

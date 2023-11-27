@@ -14,11 +14,9 @@ const VideoView = () => {
     const [videoInfo, setVideoInfo] = useState({})
 
     const fetchData = async () => {
-        console.log(videoId)
         try {
             const { video } = await connect.get('/video', { videoId, comments: true })
             setVideoInfo(video)
-            console.log(videoInfo?.description?.split('\n'))
         } catch (error) {
             setVideoInfo({})
             console.log(error)

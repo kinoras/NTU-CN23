@@ -67,7 +67,6 @@ const UserInfoButton = () => {
         try {
             const { user } = await connect.get('/user')
             dispatch({ type: 'SET_USER', value: user })
-            console.log(user)
         } catch (error) {
             console.log(error)
         }
