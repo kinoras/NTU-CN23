@@ -3,5 +3,9 @@
     "tabWidth": 4,
     "printWidth": 120,
     "semi": false,
-    "singleQuote": true
+    "singleQuote": true,
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
+    "plugins": ["@trivago/prettier-plugin-sort-imports"],
+    "pluginSearchDirs": false
 }
