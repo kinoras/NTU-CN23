@@ -17,7 +17,7 @@ const finder = async ({ method, path: _path = '' }) => {
 
         // Check path
         const [category, name] = _path?.replace('/media/', '')?.split('/', 2)
-        if (!category || !name || !['video', 'audio'].includes(category)) {
+        if (!category || !name || !['video', 'audio', 'image'].includes(category)) {
             return errorMessage(4221)
         }
 

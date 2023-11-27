@@ -30,7 +30,8 @@ export const getVideo = async ({ videoId }, _, _id) => {
                 description,
                 createdAt,
                 creator: { stuid, email, name, avatar, subscribed },
-                playlist: path.join('/media/video', `${videoId}.m3u8`)
+                playlist: path.join('/media/video', `${videoId}.m3u8`),
+                thumbnail: path.join('/media/image', `${videoId}.png`)
             }
         }
     } catch (error) {

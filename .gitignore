@@ -141,6 +141,7 @@ dist
 **/public/queue
 **/public/video
 **/public/audio
+**/public/image
 
 # Keys
 *.crt
