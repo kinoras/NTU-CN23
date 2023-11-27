@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux'
 
 import { Button, Card, Divider, Flex, Typography, Tabs as _Tabs, theme } from 'antd'
 
-import Avatar from '@/components/Avatar'
-import SubscribeButton from '@/components/SubscribeButton'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import Avatar from '@/components/Avatar'
+import SubscribeButton from '@/components/SubscribeButton'
 
 const { Title, Text } = Typography
 
@@ -55,7 +56,7 @@ const ProfileCard = ({
                         </Text>
                     </Typography>
                     <Button>編輯個人檔案</Button>
-                    {stuid !== userInfo?.stuid && (
+                    {stuid && stuid !== userInfo?.stuid && (
                         <SubscribeButton stuid={stuid} subscribed={subscribed} fetchData={fetchData} />
                     )}
                 </Flex>
