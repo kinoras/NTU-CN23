@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 
 import { Button, Card, Divider, Flex, Typography, Tabs as _Tabs, theme } from 'antd'
 
-import Avatar from '../components/Avatar'
-import SubscribeButton from '../components/SubscribeButton'
+import Avatar from '@/components/Avatar'
+import SubscribeButton from '@/components/SubscribeButton'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 

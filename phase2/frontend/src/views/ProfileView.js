@@ -5,7 +5,7 @@ import { Button, Image, Typography, theme } from 'antd'
 
 import { useGlobalContext } from '@/helpers/context'
 
-import ProfileCard from '@/containers/ProfileCard'
+import ProfileCard from '@/containers/Profile/ProfileCard'
 
 import TitledCard from '@/components/TitledCard'
 
