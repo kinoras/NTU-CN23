@@ -150,7 +150,6 @@ export const convertHls = async (filename, height) => {
         const destFile = path.join(destDir, `${objectId}-%04d.ts`)
         ffmpeg.ffprobe(srcPath, (err, metadata) => {
             const duration = metadata?.format?.duration
-            console.log(metadata)
             if (err) reject(err)
             ffmpeg(srcPath, { timeout: 432000 })
                 .addOptions([

@@ -43,7 +43,6 @@ export const createVideo = async ({ title, description, filename }, _, creator) 
     try {
         const { _id, duration } = await convertHls(filename, 720)
         await new Video({ _id, title, description, duration, creator }).save()
-        console.log(duration)
         return {
             status: 200,
             message: 'success',
