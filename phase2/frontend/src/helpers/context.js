@@ -47,8 +47,24 @@ const ContextProvider = ({ children }) => {
         return json
     }
 
+    const secToHms = (sec) => {
+        const h = Math.floor(sec / 3600)
+        const m = Math.floor((sec % 3600) / 60)
+        const s = Math.floor(sec % 60)
+
+        const mm = String(m).padStart(2, '0')
+        const ss = String(s).padStart(2, '0')
+
+        return h === 0 ? `${m}:${ss}` : `${h}:${mm}:${ss}`
+    }
+
     return (
-        <GlobalContext.Provider value={{ connect: { get, post, put, delete: _delete, base } }}>
+        <GlobalContext.Provider
+            value={{
+                connect: { get, post, put, delete: _delete, base },
+                convert: { secToHms }
+            }}
+        >
             {children}
         </GlobalContext.Provider>
     )
