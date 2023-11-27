@@ -27,7 +27,7 @@ const finder = async ({ method, path: _path = '' }) => {
         return { status: 200, type, content }
     } catch (error) {
         if (error.code === 'ENOENT') {
-            return errorMessage(4045)
+            return errorMessage(4049)
         } else {
             return errorMessage(5001)
         }

@@ -21,7 +21,7 @@ export const verifyUser = async ({ credential }) => {
 
         // Verify CSIE student
         // if (!email.endsWith('@csie.ntu.edu.tw')) {
-        //     return errorMessage(4033)
+        //     return errorMessage(4031)
         // }
 
         // Insert or get user info
