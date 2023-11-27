@@ -7,6 +7,7 @@ import locale from 'antd/locale/zh_TW'
 
 import Sider from './containers/Sider'
 import HomeView from './views/HomeView'
+import VideoView from './views/VideoView'
 
 import { volcano as color } from '@ant-design/colors'
 
@@ -26,7 +27,7 @@ const App = () => {
             locale={locale}
             theme={{
                 algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
-                token: { controlHeight: 36, colorPrimary: color.primary }
+                token: { controlHeight: 36, colorPrimary: color.primary, colorLink: color.primary }
             }}
         >
             <GlobalProvider>
@@ -37,6 +38,7 @@ const App = () => {
                             <Route path="/" element={<HomeView />} />
                             <Route path="/channel/:stuid" element={<ProfileView />} />
                             <Route path="/channel/:stuid/:tab" element={<ProfileView />} />
+                            <Route path="/video/:videoId" element={<VideoView />} />
                             <Route path="*" element={<ErrorView />} />
                         </Routes>
                     </Content>
