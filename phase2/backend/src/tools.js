@@ -78,7 +78,7 @@ export const parseRequest = (requestString) => {
         return {
             status: 'success',
             method,
-            path: path.split('?')[0],
+            path: path?.split('?')[0],
             query: parseQueryString(path),
             protocol,
             headers,
@@ -146,7 +146,8 @@ export const convertHls = async (filename, height) => {
         const objectId = new mongoose.Types.ObjectId()
         const width = Math.floor((height / 9) * 16)
         const srcPath = path.join(__dirname, `../public/queue/${filename}`)
-        const destPath = path.join(__dirname, `../public/video/${objectId}.m3u8`)
+        const destDir = path.join(__dirname, `../public/video`)
+        const destFile = path.join(destDir, `${objectId}-%04d.ts`)
         ffmpeg(srcPath, { timeout: 432000 })
             .addOptions([
                 '-profile:v baseline',
@@ -155,9 +156,10 @@ export const convertHls = async (filename, height) => {
                 '-start_number 0',
                 '-hls_time 10',
                 '-hls_list_size 0',
+                `-hls_segment_filename ${destFile}`,
                 '-f hls'
             ])
-            .output(destPath)
+            .output(path.join(destDir, `${objectId}.m3u8`))
             .on('end', () => resolve(objectId))
             .on('error', (err) => reject(err))
             .run()

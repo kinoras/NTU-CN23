@@ -2,10 +2,9 @@ import { decodeToken, errorMessage } from '../tools'
 
 import { verifyUser, getUser } from './user'
 import { addSubscription, removeSubscription } from './subscription'
-import { createVideo } from './video'
+import { getVideo, createVideo } from './video'
 
 const routeList = [
-    { method: 'GET', path: '/', handler: async () => {}, auth: false },
     /* Users */
     { method: 'GET', path: '/api/user', handler: getUser, auth: false },
     { method: 'POST', path: '/api/user/auth', handler: verifyUser, auth: false },
@@ -13,6 +12,7 @@ const routeList = [
     { method: 'POST', path: '/api/subscription', handler: addSubscription, auth: true },
     { method: 'DELETE', path: '/api/subscription', handler: removeSubscription, auth: true },
     /* Video */
+    { method: 'GET', path: '/api/video', handler: getVideo, auth: false },
     { method: 'POST', path: '/api/video', handler: createVideo, auth: true }
 ]
 
