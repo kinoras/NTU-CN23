@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Button, Image, Typography, theme } from 'antd'
+import { Button, Typography } from 'antd'
+
+import VideosCard from '../containers/Profile/VideosCard'
 
 import { useGlobalContext } from '@/helpers/context'
 
@@ -14,7 +16,6 @@ const { Paragraph } = Typography
 const ProfileView = () => {
     const navigate = useNavigate()
     const { connect } = useGlobalContext()
-    const { token } = theme.useToken()
     const { stuid: _stuid, tab } = useParams()
 
     const [activeTab, setActiveTab] = useState('home')
@@ -74,26 +75,7 @@ const ProfileView = () => {
                     ))}
                 </TitledCard>
             )}
-            {activeTab === 'video' && (
-                <TitledCard title={`${channelInfo.username} 的相片`}>
-                    <Image.PreviewGroup
-                        preview={{
-                            toolbarRender: () => {},
-                            onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`)
-                        }}
-                    >
-                        {(channelInfo?.album ?? []).map((image, i) => (
-                            <div
-                                key={i}
-                                className="mb-3 mr-3 inline-flex overflow-hidden rounded-lg border border-solid"
-                                style={{ borderColor: token.colorBorder }}
-                            >
-                                <Image src={image} className="aspect-square w-28" />
-                            </div>
-                        ))}
-                    </Image.PreviewGroup>
-                </TitledCard>
-            )}
+            {activeTab === 'videos' && <VideosCard videos={channelInfo?.videos}/>}
         </div>
     )
 }
