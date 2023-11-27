@@ -37,7 +37,7 @@ const ProfileView = () => {
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [_stuid])
 
     const tabItems = [
         { key: 'home', label: '首頁' },
