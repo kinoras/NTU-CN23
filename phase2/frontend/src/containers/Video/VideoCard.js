@@ -13,19 +13,19 @@ import LongParagraph from '@/components/LongParagraph'
 import SubscribeButton from '@/components/SubscribeButton'
 import VideoPlayer from '@/components/VideoPlayer'
 
-const { Title, Text, Paragraph } = Typography
+const { Title, Text } = Typography
 
 const VideoCard = ({ videoInfo, fetchData }) => {
     const { connect } = useGlobalContext()
     const { token } = theme.useToken()
-    const { title, description, creator, playlist, createdAt } = videoInfo
+    const { title, description, creator, thumbnail, playlist, createdAt } = videoInfo
     const { avatar, name, stuid, subscribed } = creator ?? {}
 
     const userInfo = useSelector((state) => state.userInfo) ?? {}
 
     return (
-        <Card className="mb-4 flex overflow-hidden rounded-2xl p-3 pb-2" bodyStyle={{ padding: 0 }}>
-            <VideoPlayer playlist={`${connect.base}${playlist}`} />
+        <Card className="mb-4 overflow-hidden rounded-2xl p-3 pb-2" bodyStyle={{ padding: 0 }}>
+            <VideoPlayer playlist={`${connect.base}${playlist}`} thumbnail={`${connect.base}${thumbnail}`} />
             <div className="flex items-center gap-4 p-3">
                 {/* Metadata */}
                 <Typography className="flex-1">
@@ -55,12 +55,8 @@ const VideoCard = ({ videoInfo, fetchData }) => {
             {(description ?? '').trim().length > 0 && (
                 <div className="flex flex-col p-3 pt-1.5">
                     <Divider className="mb-3 mt-0" style={{ borderColor: token?.colorBorder }} />
-                    <LongParagraph rows={4} className="-mb-1.5 pt-1">
-                        {(description ?? '').split('\n').map((line, index) => (
-                            <Paragraph className="m-0" key={index}>
-                                {line}
-                            </Paragraph>
-                        ))}
+                    <LongParagraph rows={4} className="-mb-1.5 mt-1">
+                        {description ?? ''}
                     </LongParagraph>
                 </div>
             )}
