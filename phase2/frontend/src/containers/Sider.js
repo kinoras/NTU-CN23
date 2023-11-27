@@ -44,7 +44,13 @@ const Sider = () => {
     ]
 
     return (
-        <Layout.Sider theme="light" collapsible collapsed={collapsed} onCollapse={setCollapsed}>
+        <Layout.Sider
+            theme="light"
+            collapsible
+            collapsed={collapsed}
+            onCollapse={setCollapsed}
+            className="sticky top-0 h-screen"
+        >
             <div className="flex h-full flex-col p-1">
                 {/* Home Button */}
                 <ConfigProvider theme={{ token: { controlHeight: 40, colorPrimary: gray[0] } }}>
