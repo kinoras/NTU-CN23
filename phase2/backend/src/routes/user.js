@@ -1,6 +1,7 @@
 import Subscription from '../models/subscription'
 import User from '../models/user'
 import Video from '../models/video'
+import mongoose from 'mongoose'
 import { decodeToken, errorMessage } from '../tools'
 import { OAuth2Client } from 'google-auth-library'
 import jwt from 'jsonwebtoken'
@@ -17,18 +18,18 @@ export const verifyUser = async ({ credential }) => {
             audience: GOOGLE_CLIENT_ID
         })
         const { name, picture: _avatar, email } = userTicket.getPayload()
-        const avatar = _avatar.replace('=s96-c', '=s256-c')
+        const avatar = (_avatar ?? 'https://xsgames.co/randomusers/assets/avatars/pixel/0.jpg').replace('=s96-c', '=s256-c')
 
-        // Verify CSIE student
-        // if (!email.endsWith('@csie.ntu.edu.tw')) {
-        //     return errorMessage(4031)
-        // }
+        const _id = new mongoose.Types.ObjectId()
 
         // Insert or get user info
-        const stuid = email.split('@')[0]
+        const insertInfo = (email.endsWith('@csie.ntu.edu.tw'))
+            ? { name, avatar, email, stuid: email.split('@')[0] }
+            : { _id, name, avatar, email, stuid: `user-${_id.toString()}` }
+            
         const userInfo = await User.findOneAndUpdate(
             { email },
-            { $setOnInsert: { name, avatar, email, stuid } },
+            { $setOnInsert: insertInfo },
             { upsert: true, new: true, runValidators: true }
         )
 
@@ -76,10 +77,9 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
 
         if (videos) {
             const videoList = await Video.find({ creator: userId })
-            returnObject.videos = videoList.map(({ _id, title, description, duration, createdAt }) => ({
+            returnObject.videos = videoList.map(({ _id, title, duration, createdAt }) => ({
                 _id,
                 title,
-                description,
                 duration,
                 thumbnail: path.join('/media/image', `${_id}.png`),
                 createdAt
