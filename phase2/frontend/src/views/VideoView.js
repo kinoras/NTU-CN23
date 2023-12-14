@@ -8,7 +8,7 @@ import { useGlobalContext } from '@/helpers/context'
 import VideoCard from '@/containers/Video/VideoCard'
 
 const VideoView = () => {
-    const { connect } = useGlobalContext()
+    const { connect, message } = useGlobalContext()
     const { videoId } = useParams()
 
     const [videoInfo, setVideoInfo] = useState({})
@@ -19,7 +19,7 @@ const VideoView = () => {
             setVideoInfo(video)
         } catch (error) {
             setVideoInfo({})
-            console.log(error)
+            message.error(error)
         }
     }
 

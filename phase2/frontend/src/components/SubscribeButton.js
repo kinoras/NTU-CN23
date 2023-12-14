@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { useGlobalContext } from '@/helpers/context'
 
 const SubscribeButton = ({ stuid, subscribed, fetchData }) => {
-    const { connect } = useGlobalContext()
+    const { connect, message } = useGlobalContext()
 
     const [isButtonLoading, setIsButtonLoading] = useState(false)
 
@@ -18,9 +18,13 @@ const SubscribeButton = ({ stuid, subscribed, fetchData }) => {
             !subscribed
                 ? await connect.post('/subscription', { stuid })
                 : await connect.delete('/subscription', { stuid })
+            message.success(!subscribed ? '已新增訂閱內容' : '已取消訂閱')
             await fetchData()
             setIsButtonLoading(false)
-        } catch (error) {}
+        } catch (error) {
+            message.error(error)
+            setIsButtonLoading(false)
+        }
     }
 
     return (

@@ -15,7 +15,7 @@ const { Paragraph } = Typography
 
 const ProfileView = () => {
     const navigate = useNavigate()
-    const { connect } = useGlobalContext()
+    const { connect, message } = useGlobalContext()
     const { stuid: _stuid, tab } = useParams()
 
     const [activeTab, setActiveTab] = useState('home')
@@ -27,7 +27,7 @@ const ProfileView = () => {
             const result = await connect.get('/user', { stuid, videos: true, podcasts: true })
             setChannelInfo(result)
         } catch (error) {
-            console.log(error)
+            message(error)
         }
     }
 
