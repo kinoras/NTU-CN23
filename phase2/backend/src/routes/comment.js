@@ -3,6 +3,38 @@ import Video from '../models/video'
 import { errorMessage } from '../tools'
 import mongoose from 'mongoose'
 
+export const getComment = async ({ videoId: vid }, _, userId) => {
+    try {
+        // Check params
+        if (!vid) {
+            return errorMessage(4221)
+        }
+
+        // Video ObjectId
+        const videoId = new mongoose.Types.ObjectId(vid)
+
+        // Reject if video not found
+        if (!(await Video.exists({ _id: videoId }))) {
+            return errorMessage(4044)
+        }
+
+        // Save the comment
+        const comments = await Comment.find({ videoId }).sort({ createdAt: -1 }).populate('userId')
+        return {
+            status: 200,
+            message: 'success',
+            comments: comments.map(({ _id, userId: { stuid, email, name, avatar }, content, createdAt }) => ({
+                _id,
+                user: { stuid, email, name, avatar },
+                content,
+                createdAt
+            }))
+        }
+    } catch (error) {
+        return errorMessage(5001, error)
+    }
+}
+
 export const createComment = async ({ videoId: vid, content }, _, userId) => {
     try {
         // Check params
