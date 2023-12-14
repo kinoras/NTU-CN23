@@ -12,7 +12,7 @@ export const addSubscription = async ({ stuid }, _, _id) => {
         }
         if (_id?.equals(creatorInfo?._id)) {
             // Self-subscribing
-            return errorMessage(4224)
+            return errorMessage(4223)
         }
 
         // Save subscription
