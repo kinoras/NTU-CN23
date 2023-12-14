@@ -15,8 +15,6 @@ const emptyText = <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="æ²’æœ
 const VideoListCard = ({ videos: videoList }) => {
     const { connect, convert } = useGlobalContext()
 
-    console.log(videoList)
-
     return (
         <Card className="rounded-2xl p-6 pb-2" bodyStyle={{ padding: 0 }}>
             <List

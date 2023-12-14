@@ -27,7 +27,7 @@ const ProfileView = () => {
             const result = await connect.get('/user', { stuid, videos: true, podcasts: true })
             setChannelInfo(result)
         } catch (error) {
-            message(error)
+            message.error(error)
         }
     }
 

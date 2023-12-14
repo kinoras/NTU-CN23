@@ -15,7 +15,7 @@ const UserInfoButton = () => {
     const userToken = useSelector((state) => state.userToken) ?? ''
     const userInfo = useSelector((state) => state.userInfo) ?? ''
 
-    const { connect } = useGlobalContext()
+    const { connect, message } = useGlobalContext()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -58,7 +58,7 @@ const UserInfoButton = () => {
             dispatch({ type: 'SET_TOKEN', value: token })
             dispatch({ type: 'SET_USER', value: otherInfo })
         } catch (error) {
-            console.log(error)
+            message.error(error)
         }
     }
 
@@ -68,7 +68,7 @@ const UserInfoButton = () => {
             const { user } = await connect.get('/user')
             dispatch({ type: 'SET_USER', value: user })
         } catch (error) {
-            console.log(error)
+            message.error(error)
         }
     }
     useEffect(() => {
