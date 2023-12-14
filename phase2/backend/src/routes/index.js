@@ -3,6 +3,7 @@ import { decodeToken, errorMessage } from '../tools'
 import { verifyUser, getUser } from './user'
 import { addSubscription, removeSubscription } from './subscription'
 import { getVideo, createVideo } from './video'
+import { createComment, removeComment } from './comment'
 
 const routeList = [
     /* Users */
@@ -13,7 +14,10 @@ const routeList = [
     { method: 'DELETE', path: '/api/subscription', handler: removeSubscription, auth: true },
     /* Video */
     { method: 'GET', path: '/api/video', handler: getVideo, auth: false },
-    { method: 'POST', path: '/api/video', handler: createVideo, auth: true }
+    { method: 'POST', path: '/api/video', handler: createVideo, auth: true },
+    /* Comment */
+    { method: 'POST', path: '/api/comment', handler: createComment, auth: true },
+    { method: 'DELETE', path: '/api/comment', handler: removeComment, auth: true }
 ]
 
 const router = async ({ method, path, token, query, body }) => {
