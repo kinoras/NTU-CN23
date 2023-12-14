@@ -12,7 +12,7 @@ const { Title, Text } = Typography
 
 const emptyText = <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="沒有影片" />
 
-const VideosCard = ({ videos: videoList }) => {
+const VideoListCard = ({ videos: videoList }) => {
     const { connect, convert } = useGlobalContext()
 
     console.log(videoList)
@@ -46,12 +46,12 @@ const VideosCard = ({ videos: videoList }) => {
     )
 }
 
-VideosCard.propTypes = {
+VideoListCard.propTypes = {
     videos: PropTypes.array
 }
 
-VideosCard.defaultProps = {
+VideoListCard.defaultProps = {
     videos: []
 }
 
-export default VideosCard
+export default VideoListCard

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { Button, Typography } from 'antd'
 
-import VideosCard from '../containers/Profile/VideosCard'
+import VideoListCard from '../containers/Profile/VideoListCard'
 
 import { useGlobalContext } from '@/helpers/context'
 
@@ -73,7 +73,7 @@ const ProfileView = () => {
                     ))}
                 </TitledCard>
             )}
-            {activeTab === 'videos' && <VideosCard videos={channelInfo?.videos}/>}
+            {activeTab === 'videos' && <VideoListCard videos={channelInfo?.videos}/>}
         </div>
     )
 }
