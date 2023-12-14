@@ -14,7 +14,7 @@ const LongParagraph = ({ children, rows, ...otherProps }) => {
     useEffect(() => {
         if (paragraphRef) {
             const resizeObserver = new ResizeObserver(() => {
-                setNeedExpand(paragraphRef.current.scrollHeight > 16 * 1.5 * rows)
+                setNeedExpand((paragraphRef?.current?.scrollHeight ?? 0) > 16 * 1.5 * rows)
             })
             resizeObserver.observe(paragraphRef.current)
             return () => {
