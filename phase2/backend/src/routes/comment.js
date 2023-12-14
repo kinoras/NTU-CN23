@@ -41,12 +41,12 @@ export const createComment = async ({ videoId: vid, content }, _, userId) => {
         if (!vid || !content) {
             return errorMessage(4221)
         }
-        
+
         // Video ObjectId
         const videoId = new mongoose.Types.ObjectId(vid)
 
         // Reject if video not found
-        if (!await Video.exists({ _id: videoId })) {
+        if (!(await Video.exists({ _id: videoId }))) {
             return errorMessage(4044)
         }
 

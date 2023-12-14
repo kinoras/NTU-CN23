@@ -1,9 +1,8 @@
 import { decodeToken, errorMessage } from '../tools'
-
-import { verifyUser, getUser } from './user'
 import { createComment, getComment, removeComment } from './comment'
 import { addSubscription, removeSubscription } from './subscription'
-import { getVideo, createVideo } from './video'
+import { getUser, verifyUser } from './user'
+import { createVideo, getVideo } from './video'
 
 const routeList = [
     /* Users */
