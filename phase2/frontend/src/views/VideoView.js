@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Card } from 'antd'
-
 import { useGlobalContext } from '@/helpers/context'
 
+import CommentCard from '@/containers/Video/CommentCard'
 import VideoCard from '@/containers/Video/VideoCard'
 
 const VideoView = () => {
@@ -32,7 +31,7 @@ const VideoView = () => {
         true && (
             <div className="mx-auto my-0 max-w-5xl">
                 <VideoCard videoInfo={videoInfo} fetchData={fetchData} />
-                <Card></Card>
+                <CommentCard videoId={videoId}></CommentCard>
             </div>
         )
     )

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { Card, Divider, Typography, theme } from 'antd'
 
+import Avatar from '../../components/Avatar'
 import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
 
@@ -16,7 +17,7 @@ import VideoPlayer from '@/components/VideoPlayer'
 const { Title, Text } = Typography
 
 const VideoCard = ({ videoInfo, fetchData }) => {
-    const { connect } = useGlobalContext()
+    const { connect, convert } = useGlobalContext()
     const { token } = theme.useToken()
     const { title, description, creator, thumbnail, playlist, createdAt } = videoInfo
     const { avatar, name, stuid, subscribed } = creator ?? {}
@@ -32,11 +33,15 @@ const VideoCard = ({ videoInfo, fetchData }) => {
                     <Title level={4} className="mb-1">
                         {title}
                     </Title>
-                    <Text>發布於 {dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                    <Text>
+                        發布於 {dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}{' '}
+                        <span> · </span>
+                        {convert.timeDiff(createdAt, 'ago')}
+                    </Text>
                 </Typography>
                 {/* Creator */}
                 <div className="flex basis-72 items-center gap-3">
-                    <img className="h-10 w-10 rounded-full" src={avatar} />
+                    <Avatar simple avatar={avatar} />
                     <Typography className="flex-1">
                         <Link to={`/channel/@${stuid}`}>
                             <Title level={5} className="mb-0 leading-snug">
