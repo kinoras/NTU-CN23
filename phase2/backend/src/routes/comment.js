@@ -77,7 +77,7 @@ export const removeComment = async ({ commentId: _id }, _, userId) => {
         }
 
         // Reject if comment is by other users
-        if (creatorInfo.userId.equals(userId)) {
+        if (!creatorInfo.userId.equals(userId)) {
             return errorMessage(4033)
         }
 
