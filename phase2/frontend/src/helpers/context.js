@@ -3,11 +3,15 @@ import { useSelector } from 'react-redux'
 
 import { message } from 'antd'
 
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
 import PropTypes from 'prop-types'
 
 import Message from '@/components/Message'
 
 const GlobalContext = createContext()
+
+dayjs.extend(duration)
 
 const ContextProvider = ({ children }) => {
     const token = useSelector((state) => state.userToken) ?? ''
@@ -63,6 +67,21 @@ const ContextProvider = ({ children }) => {
         return h === 0 ? `${m}:${ss}` : `${h}:${mm}:${ss}`
     }
 
+    const timeDiff = (time, format) => {
+        const sec = dayjs().diff(dayjs(time))
+        const diff = dayjs.duration(sec)
+        if (format === 'ago') {
+            if (diff.years()) return `${diff.years()} 年前`
+            if (diff.months()) return `${diff.months()} 個月前`
+            if (diff.days()) return `${diff.days()} 天前`
+            if (diff.hours()) return `${diff.hours()} 小時前`
+            if (diff.minutes()) return `${diff.minutes()} 分鐘前`
+            return `${diff.seconds()} 秒前`
+        } else {
+            return [diff.years(), diff.months(), diff.days(), diff.hours(), diff.minutes(), diff.seconds()]
+        }
+    }
+
     const showMessage = (type, title, details = '', errCode = '') => {
         messageApi.destroy()
         messageApi.open({
@@ -72,6 +91,8 @@ const ContextProvider = ({ children }) => {
     }
 
     const success = (title, details) => showMessage('success', title, details ?? '')
+
+    const warning = (title, details) => showMessage('warning', title, details ?? '')
 
     const error = (err) => {
         // prettier-ignore
@@ -103,8 +124,8 @@ const ContextProvider = ({ children }) => {
         <GlobalContext.Provider
             value={{
                 connect: { get, post, put, delete: _delete, base },
-                convert: { secToHms },
-                message: { success, error }
+                convert: { secToHms, timeDiff },
+                message: { success, warning, error }
             }}
         >
             {contextHolder}
