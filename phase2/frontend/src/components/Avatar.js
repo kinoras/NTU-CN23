@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { Avatar as AntdAvatar, Image } from 'antd'
+import { Avatar as _Avatar, Image } from 'antd'
 
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { UserOutlined } from '@ant-design/icons'
 
-const AvatarContainer = styled(AntdAvatar)`
+const AvatarContainer = styled(_Avatar)`
     .ant-image-mask {
         background: rgba(0, 0, 0, 0.25) !important;
     }
@@ -34,7 +34,7 @@ const Avatar = ({ avatar, size, simple, ...otherProps }) => {
     ) : avatar ? (
         <img className="aspect-square rounded-full" style={{ height: size }} src={avatar} />
     ) : (
-        <AntdAvatar size={size} icon={<UserOutlined />} />
+        <_Avatar size={size} icon={<UserOutlined />} />
     )
 }
 

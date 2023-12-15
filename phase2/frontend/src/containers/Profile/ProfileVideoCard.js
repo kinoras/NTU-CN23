@@ -12,13 +12,13 @@ const { Title, Text } = Typography
 
 const emptyText = <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="沒有影片" />
 
-const VideoListCard = ({ videos: videoList }) => {
+const ProfileVideoCard = ({ videos: videoList }) => {
     const { connect, convert } = useGlobalContext()
 
     return (
         <Card className="rounded-2xl p-6 pb-2" bodyStyle={{ padding: 0 }}>
             <List
-                grid={{ gutter: [20, 8], xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }}
+                grid={{ gutter: [16, 8], xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }}
                 locale={{ emptyText }}
                 dataSource={videoList}
                 renderItem={({ _id, title, createdAt, duration, thumbnail }) => (
@@ -33,7 +33,7 @@ const VideoListCard = ({ videos: videoList }) => {
                             <Title level={5} ellipsis={{ rows: 2 }} className="m-0 text-sm font-medium leading-snug">
                                 {title}
                             </Title>
-                            <Text type="secondary" className="mt-2 block text-xs font-medium">
+                            <Text type="secondary" className="mt-1.5 block text-xs font-medium">
                                 {dayjs(createdAt).format('發布於 YYYY-MM-DD HH:mm:ss')}
                             </Text>
                         </Link>
@@ -44,12 +44,12 @@ const VideoListCard = ({ videos: videoList }) => {
     )
 }
 
-VideoListCard.propTypes = {
+ProfileVideoCard.propTypes = {
     videos: PropTypes.array
 }
 
-VideoListCard.defaultProps = {
+ProfileVideoCard.defaultProps = {
     videos: []
 }
 
-export default VideoListCard
+export default ProfileVideoCard
