@@ -16,7 +16,7 @@ import VideoPlayer from '@/components/VideoPlayer'
 
 const { Title, Text } = Typography
 
-const VideoCard = ({ videoInfo, fetchData }) => {
+const VideoCard = ({ videoInfo, fetchData, ...otherProps }) => {
     const { connect, convert } = useGlobalContext()
     const { token } = theme.useToken()
     const { title, description, creator, thumbnail, playlist, createdAt } = videoInfo
@@ -25,7 +25,7 @@ const VideoCard = ({ videoInfo, fetchData }) => {
     const userInfo = useSelector((state) => state.userInfo) ?? {}
 
     return (
-        <Card className="mb-4 overflow-hidden rounded-2xl p-3 pb-2" bodyStyle={{ padding: 0 }}>
+        <Card className="mb-4 overflow-hidden rounded-2xl p-3 pb-2" bodyStyle={{ padding: 0 }} {...otherProps}>
             <VideoPlayer playlist={`${connect.base}${playlist}`} thumbnail={`${connect.base}${thumbnail}`} />
             <div className="flex items-center gap-4 p-3">
                 {/* Metadata */}
@@ -34,8 +34,7 @@ const VideoCard = ({ videoInfo, fetchData }) => {
                         {title}
                     </Title>
                     <Text>
-                        發布於 {dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}{' '}
-                        <span> · </span>
+                        發布於 {dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')} <span> · </span>
                         {convert.timeDiff(createdAt, 'ago')}
                     </Text>
                 </Typography>
