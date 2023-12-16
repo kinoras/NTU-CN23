@@ -23,7 +23,7 @@ const PodcastList = ({ podcastList, className, ...otherProps }) => {
     return (
         <List
             locale={{ emptyText }}
-            dataSource={[...podcastList, ...podcastList]}
+            dataSource={podcastList}
             className={`-mt-4 ${className}`}
             renderItem={({ _id, title, description, creator: { name, stuid }, createdAt, duration, thumbnail }) => (
                 <List.Item>

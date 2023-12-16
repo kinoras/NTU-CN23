@@ -34,7 +34,7 @@ const LongParagraph = ({ children, rows, ...otherProps }) => {
                 }}
             >
                 {children.split('\n').map((line, index) => (
-                    <Paragraph className="m-0 leading-6" key={index}>
+                    <Paragraph className="m-0 min-h-[24px] leading-6" key={index}>
                         {line}
                     </Paragraph>
                 ))}
