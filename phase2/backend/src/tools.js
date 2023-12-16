@@ -1,4 +1,6 @@
 import ffmpeg from 'fluent-ffmpeg'
+import fs from 'fs/promises'
+import { getAudioDurationInSeconds } from 'get-audio-duration'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
 import path from 'path'
@@ -168,4 +170,15 @@ export const convertHls = async (filename, height) => {
                 .run()
         })
     })
+}
+
+// Audio processing
+
+export const moveAudio = async (filename) => {
+    const objectId = new mongoose.Types.ObjectId()
+    const srcPath = path.join(__dirname, `../public/queue/${filename}`)
+    const destDir = path.join(__dirname, `../public/audio/${objectId}.mp3`)
+    await fs.copyFile(srcPath, destDir)
+    const duration = await getAudioDurationInSeconds(destDir)
+    return { _id: objectId, duration }
 }

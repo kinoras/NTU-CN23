@@ -1,6 +1,7 @@
 import { decodeToken, errorMessage } from '../tools'
 import { createComment, getComment, removeComment } from './comment'
 import { addSubscription, removeSubscription } from './subscription'
+import { createPodcast } from './podcast'
 import { getUser, verifyUser } from './user'
 import { createVideo, getVideo } from './video'
 
@@ -17,7 +18,9 @@ const routeList = [
     /* Comment */
     { method: 'GET', path: '/api/comment', handler: getComment, auth: false },
     { method: 'POST', path: '/api/comment', handler: createComment, auth: true },
-    { method: 'DELETE', path: '/api/comment', handler: removeComment, auth: true }
+    { method: 'DELETE', path: '/api/comment', handler: removeComment, auth: true },
+    /* Podcast */
+    { method: 'POST', path: '/api/podcast', handler: createPodcast, auth: true }
 ]
 
 const router = async ({ method, path, token, query, body }) => {

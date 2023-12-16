@@ -11,6 +11,7 @@
         "express": "^4.18.2",
         "fluent-ffmpeg": "^2.1.2",
         "fs": "^0.0.1-security",
+        "get-audio-duration": "^4.0.1",
         "google-auth-library": "^9.2.0",
         "https": "^1.0.0",
         "jsonwebtoken": "^9.0.2",
