@@ -4,15 +4,16 @@ import { Link } from 'react-router-dom'
 
 import { Card, Divider, Typography, theme } from 'antd'
 
-import Avatar from '../../components/Avatar'
 import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
 
 import { useGlobalContext } from '@/helpers/context'
 
+import VideoPlayer from '@/containers/Video/VideoPlayer'
+
+import Avatar from '@/components/Avatar'
 import LongParagraph from '@/components/LongParagraph'
 import SubscribeButton from '@/components/SubscribeButton'
-import VideoPlayer from '@/components/VideoPlayer'
 
 const { Title, Text } = Typography
 
@@ -26,7 +27,7 @@ const VideoCard = ({ videoInfo, fetchData, ...otherProps }) => {
 
     return (
         <Card className="mb-4 overflow-hidden rounded-2xl p-3 pb-2" bodyStyle={{ padding: 0 }} {...otherProps}>
-            <VideoPlayer playlist={`${connect.base}${playlist}`} thumbnail={`${connect.base}${thumbnail}`} />
+            <VideoPlayer id="video" playlist={`${connect.base}${playlist}`} thumbnail={`${connect.base}${thumbnail}`} />
             <div className="flex items-center gap-4 p-3">
                 {/* Metadata */}
                 <Typography className="flex-1">
