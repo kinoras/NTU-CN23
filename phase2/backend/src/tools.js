@@ -56,7 +56,7 @@ const parseHeader = (headerStrings) => {
 }
 
 const parseQueryString = (path) => {
-    return [...new URLSearchParams(path.split('?')[1])].reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+    return [...new URLSearchParams(path?.split('?')[1])].reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 }
 
 const parseBody = (bodyString) => {
