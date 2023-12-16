@@ -43,6 +43,7 @@ const App = () => {
                             <Route path="/channel/:stuid/:tab" element={<ProfileView />} />
                             <Route path="/video/:videoId" element={<VideoView />} />
                             <Route path="/subscriptions" element={<SubsView />} />
+                            <Route path="/subscriptions/:tab" element={<SubsView />} />
                             <Route path="/attribution" element={<AttributionView />} />
                             <Route path="*" element={<ErrorView />} />
                         </Routes>
