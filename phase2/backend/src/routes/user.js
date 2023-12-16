@@ -15,10 +15,10 @@ export const verifyUser = async ({ credential }) => {
     try {
         // Verify user token
         const userTicket = await client.verifyIdToken({
-            idToken: credential,
+            idToken: credential ?? '',
             audience: GOOGLE_CLIENT_ID
         })
-        const { name, picture: _avatar, email } = userTicket.getPayload()
+        const { name, picture: _avatar, email } = userTicket?.getPayload()
         const avatar = (_avatar ?? 'https://xsgames.co/randomusers/assets/avatars/pixel/0.jpg').replace(
             '=s96-c',
             '=s256-c'
@@ -27,7 +27,7 @@ export const verifyUser = async ({ credential }) => {
         const _id = new mongoose.Types.ObjectId()
 
         // Insert or get user info
-        const insertInfo = email.endsWith('@csie.ntu.edu.tw')
+        const insertInfo = email?.endsWith('@csie.ntu.edu.tw')
             ? { name, avatar, email, stuid: email.split('@')[0] }
             : { _id, name, avatar, email, stuid: `user-${_id?.toString()?.slice(-10)}` }
 
