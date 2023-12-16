@@ -2,8 +2,10 @@ import { finder, staticHolder } from './finder'
 import router from './routes'
 import { exit, formResponse, parseRequest } from './tools'
 import dotenv from 'dotenv'
+import fs from 'fs'
 import mongoose from 'mongoose'
-import net from 'net'
+import path from 'path'
+import tls from 'tls'
 
 /* Environment config */
 dotenv.config()
@@ -11,8 +13,17 @@ dotenv.config()
 /* Environment check */
 if (!process.env.MONGO_URL) exit('Missing MONGO_URL!')
 
+const options = {
+    key: fs.readFileSync(path.join(__dirname, './private-key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, './public-cert.pem'))
+}
+
+// openssl genrsa -out private-key.pem 1024
+// openssl req -new -key private-key.pem -out csr.pem
+// openssl x509 -req -in csr.pem -signkey private-key.pem -out public-cert.pem
+
 /* Socket server */
-const server = net.createServer((socket) => {
+const server = tls.createServer(options, (socket) => {
     socket.on('data', async (data) => {
         const { method, path, token, query, body } = parseRequest(data.toString())
 
