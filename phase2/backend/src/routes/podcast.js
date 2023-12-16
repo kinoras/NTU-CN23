@@ -22,9 +22,9 @@ export const getPodcast = async ({ podcastId }, _, _id) => {
 
         const {
             title,
+            description,
             duration,
             createdAt,
-
             creator: { _id: creatorId, stuid, email, name, avatar }
         } = podcast
 
@@ -34,6 +34,7 @@ export const getPodcast = async ({ podcastId }, _, _id) => {
             status: 200,
             podcast: {
                 title,
+                description,
                 duration,
                 createdAt,
                 creator: { stuid, email, name, avatar, subscribed },
@@ -46,10 +47,10 @@ export const getPodcast = async ({ podcastId }, _, _id) => {
     }
 }
 
-export const createPodcast = async ({ title, filename }, _, creator) => {
+export const createPodcast = async ({ title, description, filename }, _, creator) => {
     try {
         const { _id, duration } = await moveAudio(filename)
-        await new Podcast({ _id, title, duration, creator }).save()
+        await new Podcast({ _id, title, description, duration, creator }).save()
         return {
             status: 200,
             message: 'success',

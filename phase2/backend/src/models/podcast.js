@@ -5,6 +5,7 @@ const Schema = mongoose.Schema
 const PodcastSchema = Schema(
     {
         title: { type: String, required: true },
+        description: { type: String, default: '' },
         duration: { type: Number, default: 0 },
         creator: { type: mongoose.Types.ObjectId, ref: 'User' }
     },
