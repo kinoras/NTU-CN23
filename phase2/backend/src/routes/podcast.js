@@ -4,6 +4,48 @@ import { errorMessage, moveAudio } from '../tools'
 import mongoose from 'mongoose'
 import path from 'path'
 
+export const getPodcast = async ({ podcastId }, _, _id) => {
+    try {
+        if (!podcastId) {
+            return errorMessage(4221)
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(podcastId)) {
+            return errorMessage(4046)
+        }
+
+        const podcast = await Podcast.findOne({ _id: new mongoose.Types.ObjectId(podcastId) }).populate('creator')
+
+        if (!podcast) {
+            return errorMessage(4046)
+        }
+
+        const {
+            title,
+            duration,
+            createdAt,
+
+            creator: { _id: creatorId, stuid, email, name, avatar }
+        } = podcast
+
+        const subscribed = !!(_id && (await Subscription.exists({ creator: creatorId, subscriber: _id })))
+
+        return {
+            status: 200,
+            podcast: {
+                title,
+                duration,
+                createdAt,
+                creator: { stuid, email, name, avatar, subscribed },
+                thumbnail: path.join('/media/image', `${podcastId}.png`),
+                audio: path.join('/media/audio', `${podcastId}.mp3`)
+            }
+        }
+    } catch (error) {
+        return errorMessage(5001, error)
+    }
+}
+
 export const createPodcast = async ({ title, filename }, _, creator) => {
     try {
         const { _id, duration } = await moveAudio(filename)
