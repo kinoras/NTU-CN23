@@ -15,6 +15,7 @@ import HomeView from '@/views/HomeView'
 import ProfileView from '@/views/ProfileView'
 import VideoView from '@/views/VideoView'
 
+import PodcastButton from '@/containers/Podcast/PodcastButton'
 import Sider from '@/containers/Sider'
 
 const { Content } = Layout
@@ -45,6 +46,7 @@ const App = () => {
                         </Routes>
                     </Content>
                 </Layout>
+                <PodcastButton />
             </GlobalProvider>
         </ConfigProvider>
     )

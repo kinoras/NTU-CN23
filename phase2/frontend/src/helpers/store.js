@@ -4,6 +4,7 @@ const initialState = {
     isDarkMode: localStorage.getItem('theme') === 'dark',
     userToken: localStorage.getItem('auth'),
     userInfo: {},
+    audio: null
 }
 
 const reducer = (state = initialState, { type, value }) => {
@@ -16,6 +17,9 @@ const reducer = (state = initialState, { type, value }) => {
             return { ...state, userToken: value }
         case 'SET_USER':
             return { ...state, userInfo: value }
+        case 'SET_AUDIO':
+            if (state.audio === value) document.getElementById('audio')?.play()
+            return { ...state, audio: value }
         default:
             return state
     }
