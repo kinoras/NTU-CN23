@@ -1,6 +1,7 @@
 import Podcast from '../models/podcast'
 import Subscription from '../models/subscription'
 import { errorMessage, moveAudio } from '../tools'
+import fs from 'fs/promises'
 import mongoose from 'mongoose'
 import path from 'path'
 
@@ -47,10 +48,14 @@ export const getPodcast = async ({ podcastId }, _, _id) => {
     }
 }
 
-export const createPodcast = async ({ title, description, filename }, _, creator) => {
+export const createPodcast = async ({ title, description, filename, thumbnail }, _, creator) => {
     try {
         const { _id, duration } = await moveAudio(filename)
         await new Podcast({ _id, title, description, duration, creator }).save()
+        await fs.copyFile(
+            path.join(__dirname, `../../public/queue/${thumbnail}`),
+            path.join(__dirname, `../../public/image/${_id}.png`)
+        )
         return {
             status: 200,
             message: 'success',

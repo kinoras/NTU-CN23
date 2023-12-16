@@ -1,6 +1,7 @@
 import Subscription from '../models/subscription'
 import Video from '../models/video'
 import { convertHls, errorMessage } from '../tools'
+import fs from 'fs/promises'
 import mongoose from 'mongoose'
 import path from 'path'
 
@@ -39,10 +40,14 @@ export const getVideo = async ({ videoId }, _, _id) => {
     }
 }
 
-export const createVideo = async ({ title, description, filename }, _, creator) => {
+export const createVideo = async ({ title, description, filename, thumbnail, size = 720 }, _, creator) => {
     try {
-        const { _id, duration } = await convertHls(filename, 720)
+        const { _id, duration } = await convertHls(filename, size)
         await new Video({ _id, title, description, duration, creator }).save()
+        await fs.copyFile(
+            path.join(__dirname, `../../public/queue/${thumbnail}`),
+            path.join(__dirname, `../../public/image/${_id}.png`)
+        )
         return {
             status: 200,
             message: 'success',
