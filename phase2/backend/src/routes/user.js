@@ -1,10 +1,11 @@
+import Podcast from '../models/podcast'
 import Subscription from '../models/subscription'
 import User from '../models/user'
 import Video from '../models/video'
-import mongoose from 'mongoose'
 import { decodeToken, errorMessage } from '../tools'
 import { OAuth2Client } from 'google-auth-library'
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
 import path from 'path'
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
@@ -18,15 +19,18 @@ export const verifyUser = async ({ credential }) => {
             audience: GOOGLE_CLIENT_ID
         })
         const { name, picture: _avatar, email } = userTicket.getPayload()
-        const avatar = (_avatar ?? 'https://xsgames.co/randomusers/assets/avatars/pixel/0.jpg').replace('=s96-c', '=s256-c')
+        const avatar = (_avatar ?? 'https://xsgames.co/randomusers/assets/avatars/pixel/0.jpg').replace(
+            '=s96-c',
+            '=s256-c'
+        )
 
         const _id = new mongoose.Types.ObjectId()
 
         // Insert or get user info
-        const insertInfo = (email.endsWith('@csie.ntu.edu.tw'))
+        const insertInfo = email.endsWith('@csie.ntu.edu.tw')
             ? { name, avatar, email, stuid: email.split('@')[0] }
             : { _id, name, avatar, email, stuid: `user-${_id.toString()}` }
-            
+
         const userInfo = await User.findOneAndUpdate(
             { email },
             { $setOnInsert: insertInfo },
@@ -80,6 +84,18 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
             returnObject.videos = videoList.map(({ _id, title, duration, createdAt }) => ({
                 _id,
                 title,
+                duration,
+                thumbnail: path.join('/media/image', `${_id}.png`),
+                createdAt
+            }))
+        }
+
+        if (podcasts) {
+            const podcastList = await Podcast.find({ creator: userId })
+            returnObject.podcasts = podcastList.map(({ _id, title, description, duration, createdAt }) => ({
+                _id,
+                title,
+                description,
                 duration,
                 thumbnail: path.join('/media/image', `${_id}.png`),
                 createdAt
