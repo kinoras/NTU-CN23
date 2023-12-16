@@ -13,6 +13,7 @@ import AttributionView from '@/views/AttributionView'
 import ErrorView from '@/views/ErrorView'
 import HomeView from '@/views/HomeView'
 import ProfileView from '@/views/ProfileView'
+import SubsView from '@/views/SubsView'
 import VideoView from '@/views/VideoView'
 
 import PodcastButton from '@/containers/Podcast/PodcastButton'
@@ -41,6 +42,7 @@ const App = () => {
                             <Route path="/channel/:stuid" element={<ProfileView />} />
                             <Route path="/channel/:stuid/:tab" element={<ProfileView />} />
                             <Route path="/video/:videoId" element={<VideoView />} />
+                            <Route path="/subscriptions" element={<SubsView />} />
                             <Route path="/attribution" element={<AttributionView />} />
                             <Route path="*" element={<ErrorView />} />
                         </Routes>
