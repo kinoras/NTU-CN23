@@ -36,8 +36,6 @@ const PodcastButton = () => {
 
     useEffect(() => {
         if (audioRef && buttonRef && podcastId) {
-            console.log(buttonRef?.current)
-            buttonRef?.current?.click()
             audioRef?.current?.play()
             document.getElementById('video')?.pause()
         }
@@ -50,7 +48,7 @@ const PodcastButton = () => {
         }
     }
 
-    return (
+    return podcastId && (
         <>
             <PodcastModel
                 forceRender
@@ -62,7 +60,7 @@ const PodcastButton = () => {
                 player={audioRef?.current}
             />
             <FloatButton
-                type={!(audioRef?.current?.paused) ? 'primary' : 'default'}
+                type={audioRef?.current && !audioRef?.current?.paused ? 'primary' : 'default'}
                 className="bottom-8"
                 ref={buttonRef}
                 icon={<Icon icon="podcasts" size={14} weight="filled" className="scale-[1.75]" />}
