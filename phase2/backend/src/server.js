@@ -1,10 +1,9 @@
-import net from 'net'
+import { finder, staticHolder } from './finder'
+import router from './routes'
+import { exit, formResponse, parseRequest } from './tools'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
-
-import router from './routes'
-import finder from './finder'
-import { exit, parseRequest, formResponse } from './tools'
+import net from 'net'
 
 /* Environment config */
 dotenv.config()
@@ -20,21 +19,22 @@ const server = net.createServer((socket) => {
         if (method === 'OPTIONS') {
             // Preflight request
             socket.write(formResponse.options())
-        } else if (path?.startsWith('/media/')) {
+        } else if (path?.startsWith('/api/')) {
+            // API request
+            const { status, ...response } = (await router({ method, path, token, query, body })) ?? {}
+            socket.write(formResponse.api(status, response))
+        } else {
             // Media request
-            const { status, type, content, ...response } = await finder({ method, path })
+            const { status, type, content, ...response } = path?.startsWith('/media/')
+                ? await finder({ method, path })
+                : await staticHolder({ method, path })
             if (status === 200) {
                 socket.write(formResponse.mediaHeader(status, type, content))
                 socket.write(content)
             } else {
                 socket.write(formResponse.api(status, response))
             }
-        } else {
-            //
-            const { status, ...response } = (await router({ method, path, token, query, body })) ?? {}
-            socket.write(formResponse.api(status, response))
         }
-        // socket.end()
     })
     socket.on('error', (error) => console.log(error))
 })

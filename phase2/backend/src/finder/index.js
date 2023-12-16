@@ -1,14 +1,15 @@
-import { errorMessage } from '../tools'
-import { promises as fs } from 'fs'
+import { errorMessage, getContentType } from '../tools'
+import fs from 'fs/promises'
 import path from 'path'
+import { URL } from 'url'
 
-const typeList = {
-    video: 'application/octet-stream',
-    audio: 'audio/mpeg',
-    image: 'image/png'
+const removeHash = (path) => {
+    const parsedUrl = new URL(path, 'http://localhost')
+    parsedUrl.hash = ''
+    return parsedUrl.toString().replace('http://localhost', '')
 }
 
-const finder = async ({ method, path: _path = '' }) => {
+export const finder = async ({ method, path: _path = '' }) => {
     try {
         // Check method
         if (method !== 'GET') {
@@ -23,9 +24,33 @@ const finder = async ({ method, path: _path = '' }) => {
 
         // Get file
         const content = await fs.readFile(path.join(__dirname, '../../public', category, name))
-        const type = typeList[category] ?? 'text/plain'
+        const type = getContentType(path.extname(name)) ?? 'text/plain'
         return { status: 200, type, content }
     } catch (error) {
+        if (error.code === 'ENOENT') {
+            return errorMessage(4049)
+        } else {
+            return errorMessage(5001)
+        }
+    }
+}
+
+export const staticHolder = async ({ method, path: _path = '' }) => {
+    try {
+        // Check method
+        if (method !== 'GET') {
+            return errorMessage(4051)
+        }
+
+        const pathname = removeHash(_path)
+
+        const filePath = pathname === '/' ? '/index.html' : pathname
+
+        const content = await fs.readFile(path.join(__dirname, '../../../frontend/build', filePath))
+        const type = getContentType(path.extname(filePath)) ?? 'text/plain'
+        return { status: 200, type, content }
+    } catch (error) {
+        console.log(error)
         if (error.code === 'ENOENT') {
             return errorMessage(4049)
         } else {

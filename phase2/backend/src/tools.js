@@ -141,6 +141,25 @@ export const formResponse = {
     }
 }
 
+export const getContentType = (ext) => {
+    switch (ext) {
+        case '.html':
+            return 'text/html'
+        case '.css':
+            return 'text/css'
+        case '.js':
+            return 'text/javascript'
+        case '.png':
+            return 'image/png'
+        case '.jpg':
+            return 'image/jpeg'
+        case '.mp3':
+            return 'audio/mpeg'
+        default:
+            return 'application/octet-stream'
+    }
+}
+
 // Video processing
 
 export const convertHls = async (filename, height) => {
