@@ -26,6 +26,7 @@ const options = {
 const server = tls.createServer(options, (socket) => {
     socket.on('data', async (data) => {
         const { method, path, token, query, body } = parseRequest(data.toString())
+        console.log(data.toString())
 
         if (method === 'OPTIONS') {
             // Preflight request
