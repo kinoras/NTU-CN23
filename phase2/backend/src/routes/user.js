@@ -29,7 +29,7 @@ export const verifyUser = async ({ credential }) => {
         // Insert or get user info
         const insertInfo = email.endsWith('@csie.ntu.edu.tw')
             ? { name, avatar, email, stuid: email.split('@')[0] }
-            : { _id, name, avatar, email, stuid: `user-${_id.toString()}` }
+            : { _id, name, avatar, email, stuid: `user-${_id?.toString()?.slice(-10)}` }
 
         const userInfo = await User.findOneAndUpdate(
             { email },
@@ -80,7 +80,7 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
         returnObject.user = { stuid, email, name, avatar, subscribed }
 
         if (videos) {
-            const videoList = await Video.find({ creator: userId })
+            const videoList = await Video.find({ creator: userId }).sort({ createdAt: -1 })
             returnObject.videos = videoList.map(({ _id, title, duration, createdAt }) => ({
                 _id,
                 title,
@@ -91,7 +91,7 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
         }
 
         if (podcasts) {
-            const podcastList = await Podcast.find({ creator: userId })
+            const podcastList = await Podcast.find({ creator: userId }).sort({ createdAt: -1 })
             returnObject.podcasts = podcastList.map(({ _id, title, description, duration, createdAt }) => ({
                 _id,
                 title,
