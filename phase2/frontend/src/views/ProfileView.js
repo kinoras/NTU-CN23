@@ -39,17 +39,15 @@ const ProfileView = () => {
         fetchData()
     }, [_stuid])
 
-    const tabItems = [
-        { key: 'home', label: '首頁' },
-        { key: 'videos', label: '影片' },
-        { key: 'podcasts', label: 'Podcast' }
-    ]
-
     return (
         <div className="mx-auto my-0 max-w-5xl">
             <ProfileCard
                 userInfo={channelInfo?.user ?? {}}
-                tabItems={tabItems}
+                tabItems={[
+                    { key: 'home', label: '首頁' },
+                    { key: 'videos', label: '影片' },
+                    { key: 'podcasts', label: 'Podcast' }
+                ]}
                 activeTab={activeTab}
                 fetchData={fetchData}
                 setActiveTab={(key) => {

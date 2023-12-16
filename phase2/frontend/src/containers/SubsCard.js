@@ -1,24 +1,10 @@
 import React from 'react'
 
-import { Card, Typography, Tabs as _Tabs } from 'antd'
+import { Card, Typography } from 'antd'
 
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
-const Tabs = styled(_Tabs)`
-    .ant-tabs-nav {
-        margin: 0;
-        &::before {
-            content: unset;
-        }
-        .ant-tabs-tab {
-            padding: 16px 12px;
-            + .ant-tabs-tab {
-                margin-left: 8px;
-            }
-        }
-    }
-`
+import TabHeader from '@/components/TabHeader'
 
 const { Title } = Typography
 
@@ -31,25 +17,22 @@ const SubsCard = ({ tabItems, activeTab, setActiveTab }) => {
                 </Title>
             </div>
             <div className="mx-3">
-                <Tabs items={tabItems} activeKey={activeTab} onChange={setActiveTab} />
+                <TabHeader items={tabItems} activeKey={activeTab} onChange={setActiveTab} />
             </div>
         </Card>
     )
 }
 
 SubsCard.propTypes = {
-    userInfo: PropTypes.object.isRequired,
     tabItems: PropTypes.array,
     activeTab: PropTypes.string,
-    setActiveTab: PropTypes.func,
-    fetchData: PropTypes.func
+    setActiveTab: PropTypes.func
 }
 
 SubsCard.defaultProps = {
     tabItems: [],
     activeTab: 'about',
-    setActiveTab: () => {},
-    fetchData: () => {}
+    setActiveTab: () => {}
 }
 
 export default SubsCard

@@ -5,7 +5,7 @@ import { Card } from 'antd'
 
 import { useGlobalContext } from '@/helpers/context'
 
-import SubsCard from '@/containers/Subscription/SubsCard'
+import SubsCard from '@/containers/SubsCard'
 
 import PodcastList from '@/components/PodcastList'
 import VideoList from '@/components/VideoList'

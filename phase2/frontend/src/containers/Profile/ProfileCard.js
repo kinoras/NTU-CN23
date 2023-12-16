@@ -1,30 +1,15 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import { Button, Card, Divider, Flex, Typography, Tabs as _Tabs, theme } from 'antd'
+import { Button, Card, Divider, Flex, Typography, theme } from 'antd'
 
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
 import Avatar from '@/components/Avatar'
 import SubscribeButton from '@/components/SubscribeButton'
+import TabHeader from '@/components/TabHeader'
 
 const { Title, Text } = Typography
-
-const Tabs = styled(_Tabs)`
-    .ant-tabs-nav {
-        margin: 0;
-        &::before {
-            content: unset;
-        }
-        .ant-tabs-tab {
-            padding: 16px 12px;
-            + .ant-tabs-tab {
-                margin-left: 8px;
-            }
-        }
-    }
-`
 
 const ProfileCard = ({
     userInfo: { avatar, name, stuid, subscribed },
@@ -61,7 +46,7 @@ const ProfileCard = ({
                     )}
                 </Flex>
                 <Divider className="mb-0 mt-5" style={{ borderColor: token?.colorBorder }} />
-                <Tabs items={tabItems} activeKey={activeTab} onChange={setActiveTab} />
+                <TabHeader items={tabItems} activeKey={activeTab} onChange={setActiveTab} />
             </div>
         </Card>
     )
