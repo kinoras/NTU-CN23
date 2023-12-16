@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Button, Typography } from 'antd'
+import { Button, Form, Input, InputNumber, Modal, Typography } from 'antd'
 
 import ProfileVideoCard from '../containers/Profile/ProfileVideoCard'
 
@@ -21,6 +21,10 @@ const ProfileView = () => {
     const [activeTab, setActiveTab] = useState('home')
     const [channelInfo, setChannelInfo] = useState({})
 
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isUploading, setIsUploading] = useState(false)
+    const [form] = Form.useForm()
+
     const fetchData = async () => {
         try {
             const stuid = _stuid.replace('@', '')
@@ -38,6 +42,18 @@ const ProfileView = () => {
     useEffect(() => {
         fetchData()
     }, [_stuid])
+
+    const handleUploadFormSubmit = async ({ type, ...data }) => {
+        try {
+            setIsUploading(true)
+            await connect.post(`/${type}`, data)
+            setIsUploading(false)
+            message.success('OK')
+        } catch (error) {
+            setIsUploading(false)
+            message.error(error)
+        }
+    }
 
     return (
         <div className="mx-auto my-0 max-w-5xl">
@@ -57,13 +73,40 @@ const ProfileView = () => {
             />
             {activeTab === 'home' && (
                 <TitledCard title={`關於 ${channelInfo?.user?.name}`}>
-                    <Button
-                        onClick={async () => {
-                            console.log(await connect.post('/video', { title: 'RickRoll', filename: 'rickroll.mp4' }))
-                        }}
+                    <Modal
+                        open={isModalOpen}
+                        onCancel={() => setIsModalOpen(false)}
+                        title="UPLOAD"
+                        onOk={() => form.submit()}
+                        okButtonProps={{ loading: isUploading }}
                     >
-                        CLICK
-                    </Button>
+                        <Form
+                            form={form}
+                            onFinish={handleUploadFormSubmit}
+                            layout="vertical"
+                            autoComplete="off"
+                        >
+                            <Form.Item name="type" label="Type">
+                                <Input />
+                            </Form.Item>
+                            <Form.Item name="title" label="Title">
+                                <Input />
+                            </Form.Item>
+                            <Form.Item name="size" label="Quality">
+                                <InputNumber />
+                            </Form.Item>
+                            <Form.Item name="description" label="Description">
+                                <Input.TextArea />
+                            </Form.Item>
+                            <Form.Item name="filename" label="Filename">
+                                <Input />
+                            </Form.Item>
+                            <Form.Item name="thumbnail" label="Thumbnail">
+                                <Input />
+                            </Form.Item>
+                        </Form>
+                    </Modal>
+                    <Button onClick={() => setIsModalOpen(true)}>SHOW FORM</Button>
                     {(channelInfo?.description ?? []).map((parag, i) => (
                         <Paragraph className="leading-relaxed last:mb-0" key={i}>
                             {parag}
