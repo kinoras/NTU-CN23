@@ -27,7 +27,7 @@ const UserInfoButton = () => {
         try {
             // Init GIS
             window.google.accounts.id.initialize({
-                client_id: '335796492667-44oo6rbp51pjp6i9q5ui5b2ick7vstmb.apps.googleusercontent.com',
+                client_id: '335796492667-hbpv7fes5np07hj1bfmdmftb0hg5cec8.apps.googleusercontent.com',
                 callback: handleCredentialResponse
             })
 
