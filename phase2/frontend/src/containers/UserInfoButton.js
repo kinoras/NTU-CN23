@@ -50,8 +50,10 @@ const UserInfoButton = () => {
     }
 
     /* Sign-in handler */
-    const handleCredentialResponse = async ({ credential }) => {
+    const handleCredentialResponse = async (data) => {
         try {
+            const { credential } = data
+            console.log(data)
             const {
                 user: { token, ...otherInfo }
             } = await connect.post('/user/auth', { credential })
