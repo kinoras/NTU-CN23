@@ -71,6 +71,11 @@ const formStatusLine = (statusCode) => {
     return `HTTP/1.1 ${statusCode} ${statusList[statusCode]}`
 }
 
+export const bodyLength = (body) => {
+    const index = body.indexOf('\r\n\r\n')
+    return index !== -1 ? body.length - (index + '\r\n\r\n'.length) : -1
+}
+
 export const parseRequest = (requestString) => {
     try {
         const [meta, bodyString] = requestString.split('\r\n\r\n', 2)

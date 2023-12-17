@@ -1,6 +1,6 @@
 import { finder, staticHolder } from './finder'
 import router from './routes'
-import { exit, formResponse, parseRequest } from './tools'
+import { bodyLength, exit, formResponse, parseRequest } from './tools'
 import dotenv from 'dotenv'
 import fs from 'fs'
 import mongoose from 'mongoose'
@@ -24,28 +24,39 @@ const options = {
 
 /* Socket server */
 const server = tls.createServer(options, (socket) => {
-    socket.on('data', async (data) => {
-        const { method, path, token, query, body } = parseRequest(data.toString())
-        console.log(data.toString())
+    let requestData = ''
+    let requestLength = 0
 
-        if (method === 'OPTIONS') {
-            // Preflight request
-            socket.write(formResponse.options())
-        } else if (path?.startsWith('/api/')) {
-            // API request
-            const { status, ...response } = (await router({ method, path, token, query, body })) ?? {}
-            socket.write(formResponse.api(status, response))
-        } else {
-            // Media request
-            const { status, type, content, ...response } = path?.startsWith('/media/')
-                ? await finder({ method, path })
-                : await staticHolder({ method, path })
-            if (status === 200) {
-                socket.write(formResponse.mediaHeader(status, type, content))
-                socket.write(content)
-            } else {
+    socket.on('data', async (data) => {
+        requestData += data.toString()
+        if (requestData.includes('\r\n\r\n')) {
+            const match = requestData.match(/Content-Length: (\d+)/)
+            requestLength = match ? parseInt(match[1], 10) : 0
+        }
+        if (bodyLength(requestData) >= requestLength) {
+            const { method, path, token, query, body } = parseRequest(requestData)
+            if (method === 'OPTIONS') {
+                // Preflight request
+                socket.write(formResponse.options())
+            } else if (path?.startsWith('/api/')) {
+                // API request
+                const { status, ...response } = (await router({ method, path, token, query, body })) ?? {}
                 socket.write(formResponse.api(status, response))
+            } else {
+                // Media request
+                const { status, type, content, ...response } = path?.startsWith('/media/')
+                    ? await finder({ method, path })
+                    : await staticHolder({ method, path })
+                if (status === 200) {
+                    socket.write(formResponse.mediaHeader(status, type, content))
+                    socket.write(content)
+                } else {
+                    socket.write(formResponse.api(status, response))
+                }
             }
+            // Reset
+            requestData = ''
+            requestLength = 0
         }
     })
     socket.on('error', (error) => console.log(error))
