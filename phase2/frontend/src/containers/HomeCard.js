@@ -1,20 +1,32 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-import { Card, Typography } from 'antd'
+import { Card } from 'antd'
 
 import PropTypes from 'prop-types'
 
 import TabHeader from '@/components/TabHeader'
 
-const { Title } = Typography
+import GuideCover from '@/assets/guide/cover.jpg'
+
+// const { Title } = Typography
 
 const HomeCard = ({ tabItems, activeTab, setActiveTab }) => {
     return (
         <Card className="mb-4 overflow-hidden rounded-2xl p-3 pb-0" bodyStyle={{ padding: 0, overflow: 'hidden' }}>
-            <div className="flex h-12 w-full items-center rounded-lg">
-                <Title level={3} className="m-0 px-3">
-                    主頁
-                </Title>
+            <div className="relative h-52">
+                <Link
+                    to="/guide"
+                    className="flex h-52 w-full items-center rounded-lg bg-cover bg-center transition-all hover:brightness-95"
+                    style={{ backgroundImage: 'url(' + GuideCover + ')' }}
+                ></Link>
+                <Link
+                    to="https://www.freepik.com/free-vector/zoom-lines-comic-effect-background_24600905.htm"
+                    target="_blank"
+                    className="absolute bottom-0 right-0 z-50 px-3.5 py-3 text-xs text-black"
+                >
+                    Image by Freepik
+                </Link>
             </div>
             <div className="mx-3">
                 <TabHeader items={tabItems} activeKey={activeTab} onChange={setActiveTab} />

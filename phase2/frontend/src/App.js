@@ -11,6 +11,7 @@ import GlobalProvider from '@/helpers/context'
 
 import AttributionView from '@/views/AttributionView'
 import ErrorView from '@/views/ErrorView'
+import GuideView from '@/views/GuideView'
 import HomeView from '@/views/HomeView'
 import ProfileView from '@/views/ProfileView'
 import SubsView from '@/views/SubsView'
@@ -45,6 +46,7 @@ const App = () => {
                             <Route path="/subscriptions" element={<SubsView />} />
                             <Route path="/subscriptions/:tab" element={<SubsView />} />
                             <Route path="/attribution" element={<AttributionView />} />
+                            <Route path="/guide" element={<GuideView />} />
                             <Route path="*" element={<ErrorView />} />
                         </Routes>
                     </Content>
