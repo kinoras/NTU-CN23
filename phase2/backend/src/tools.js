@@ -73,7 +73,7 @@ const formStatusLine = (statusCode) => {
 
 export const bodyLength = (body) => {
     const index = body.indexOf('\r\n\r\n')
-    return index !== -1 ? body.length - (index + '\r\n\r\n'.length) : -1
+    return index !== -1 ? Buffer.byteLength(body, 'utf8') - (index + '\r\n\r\n'.length) : -1
 }
 
 export const parseRequest = (requestString) => {
