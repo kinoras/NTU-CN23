@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useGlobalContext } from '@/helpers/context'
@@ -10,8 +11,11 @@ import ProfileVideoCard from '@/containers/Profile/ProfileVideoCard'
 
 const ProfileView = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const { connect, message } = useGlobalContext()
     const { stuid: _stuid, tab } = useParams()
+
+    const userInfo = useSelector((state) => state.userInfo) ?? {}
 
     const [activeTab, setActiveTab] = useState('home')
     const [channelInfo, setChannelInfo] = useState({})
@@ -21,6 +25,9 @@ const ProfileView = () => {
             const stuid = _stuid.replace('@', '')
             const result = await connect.get('/user', { stuid, videos: true, podcasts: true })
             setChannelInfo(result)
+            if (result?.user?.stuid === userInfo?.stuid) {
+                dispatch({ type: 'SET_USER_NAME', value: result?.user?.name })
+            }
         } catch (error) {
             message.error(error)
         }

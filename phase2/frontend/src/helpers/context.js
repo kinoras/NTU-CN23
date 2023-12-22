@@ -24,8 +24,6 @@ const ContextProvider = ({ children }) => {
 
     const base = process.env.NODE_ENV === 'production' ? '' : `${window.location.protocol}//${window.location.host.replace(':3000', ':4000')}`
 
-    // const base = `http://${window.location.host.replace(':3000', ':4000')}`
-
     const get = async (path, query) => {
         const queryString = new URLSearchParams(query).toString()
         const response = await fetch(`${base}/api${path}?${queryString}`, { method: 'GET', headers })

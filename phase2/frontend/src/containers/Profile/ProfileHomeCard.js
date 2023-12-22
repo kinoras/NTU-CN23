@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Card, Divider, Flex, Typography } from 'antd'
+import { Card, Flex, Typography } from 'antd'
 
 import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
@@ -16,7 +16,7 @@ const ProfileHomeCard = ({ userInfo: user, videoCount, audioCount }) => {
             <Title level={4} className="mb-4">
                 關於 {user?.name}
             </Title>
-            <Flex gap={8}>
+            <Flex gap={24}>
                 <div className="flex-1">
                     {user?.selfIntro ? (
                         <LongParagraph rows={8}>{user?.selfIntro}</LongParagraph>
@@ -24,8 +24,7 @@ const ProfileHomeCard = ({ userInfo: user, videoCount, audioCount }) => {
                         <Text type="secondary">此頻道未填寫介紹。</Text>
                     )}
                 </div>
-                <Divider type="vertical" className="h-full" />
-                <ul className="m-0 w-64 p-0 pt-1">
+                <ul className="m-0 w-56 p-0 pt-1">
                     <li className="mb-3 flex list-none items-center">
                         <Icon icon="video_library" weight="normal-200" className="mr-2" />
                         <Text>{videoCount > 0 ? `${videoCount} 部` : '沒有'}影片</Text>
@@ -40,7 +39,7 @@ const ProfileHomeCard = ({ userInfo: user, videoCount, audioCount }) => {
                     </li>
                     <li className="mb-3 flex list-none items-center">
                         <Icon icon="calendar_month" weight="normal-200" className="mr-2" />
-                        <Text>加入於 {dayjs(user?.createdAt).format('YYYY 年 MM 月 DD 日')}</Text>
+                        <Text>{dayjs(user?.createdAt).format('YYYY 年 MM 月 DD 日')}加入</Text>
                     </li>
                     <li className="mb-3 flex list-none items-center">
                         <Icon icon="language" weight="normal-200" className="mr-2" />

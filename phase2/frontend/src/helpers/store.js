@@ -17,6 +17,8 @@ const reducer = (state = initialState, { type, value }) => {
             return { ...state, userToken: value }
         case 'SET_USER':
             return { ...state, userInfo: value }
+        case 'SET_USER_NAME':
+            return { ...state, userInfo: { ...state.userInfo, name: value } }
         case 'SET_AUDIO':
             if (state.audio === value) document.getElementById('audio')?.play()
             return { ...state, audio: value }

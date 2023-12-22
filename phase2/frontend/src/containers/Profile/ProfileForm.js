@@ -47,8 +47,8 @@ const ProfileForm = ({ userInfo, open, onClose, fetchData }) => {
     }, [userInfo])
 
     useEffect(() => {
-        if (open) form.resetFields()
-    }, [open])
+        form.resetFields()
+    }, [initValues])
 
     return (
         <Modal
