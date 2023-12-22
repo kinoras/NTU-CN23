@@ -3,11 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { Button, Form, Input, InputNumber, Modal, Typography } from 'antd'
 
-import ProfileVideoCard from '../containers/Profile/ProfileVideoCard'
-
 import { useGlobalContext } from '@/helpers/context'
 
 import ProfileCard from '@/containers/Profile/ProfileCard'
+import ProfilePodcastCard from '@/containers/Profile/ProfilePodcastCard'
+import ProfileVideoCard from '@/containers/Profile/ProfileVideoCard'
 
 import TitledCard from '@/components/TitledCard'
 
@@ -80,12 +80,7 @@ const ProfileView = () => {
                         onOk={() => form.submit()}
                         okButtonProps={{ loading: isUploading }}
                     >
-                        <Form
-                            form={form}
-                            onFinish={handleUploadFormSubmit}
-                            layout="vertical"
-                            autoComplete="off"
-                        >
+                        <Form form={form} onFinish={handleUploadFormSubmit} layout="vertical" autoComplete="off">
                             <Form.Item name="type" label="Type">
                                 <Input />
                             </Form.Item>
@@ -115,6 +110,7 @@ const ProfileView = () => {
                 </TitledCard>
             )}
             {activeTab === 'videos' && <ProfileVideoCard videos={channelInfo?.videos} />}
+            {activeTab === 'podcasts' && <ProfilePodcastCard podcasts={channelInfo?.podcasts} />}
         </div>
     )
 }
