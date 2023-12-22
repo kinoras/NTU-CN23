@@ -22,7 +22,7 @@ const GuideView = () => {
                         <ul>
                             <li>
                                 由於本站架設在宿舍房間，而宿網高速用量只有 6 GB/天，因此
-                                <Text strong>建議使用台大 VPN</Text>
+                                <Text strong>建議使用台大網路/台大 VPN</Text>
                                 或避免長時間觀看影片，感謝。
                             </li>
                             <li>
@@ -47,11 +47,9 @@ const GuideView = () => {
                     <Paragraph>
                         <Title level={4}>個人頻道</Title>
                         <ul>
-                            <li>可以查看/訂閱其他人的頻道，但不能訂閱自己的頻道。</li>
-                            <li>每個頻道可以上傳一支範例影片。</li>
-                            <li>
-                                <Text strong>影片一經上傳便不能刪除。</Text>
-                            </li>
+                            <li>可以像 YouTube 一樣查看/訂閱其他人的頻道</li>
+                            <li>不能訂閱自己的頻道。</li>
+                            <li>暫未開放影片上傳功能。</li>
                         </ul>
                     </Paragraph>
                     <Paragraph>
@@ -66,6 +64,7 @@ const GuideView = () => {
                         <Title level={4}>音訊串流</Title>
                         <ul>
                             <li>播放器會在按下右下角 Podcast 按鈕後彈出。</li>
+                            <li>按鈕為紅色代表正在播放，按鈕為白色代表暫停播放。</li>
                             <li>如果沒看到按鈕，代表你還沒開始播放任何音訊。</li>
                             <li>音訊開始播放時，同一視窗的影片會自動暫停；反之亦然。</li>
                         </ul>
