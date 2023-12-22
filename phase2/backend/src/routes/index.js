@@ -3,12 +3,13 @@ import { createComment, getComment, removeComment } from './comment'
 import { createPodcast, getPodcast } from './podcast'
 import { addSubscription, getSubscriptions, removeSubscription } from './subscription'
 import { getSuggestions } from './suggestion'
-import { getUser, verifyUser } from './user'
+import { getUser, updateUser, verifyUser } from './user'
 import { createVideo, getVideo } from './video'
 
 const routeList = [
     /* Users */
     { method: 'GET', path: '/api/user', handler: getUser, auth: false },
+    { method: 'PUT', path: '/api/user', handler: updateUser, auth: true },
     { method: 'POST', path: '/api/user/auth', handler: verifyUser, auth: false },
     /* Subscriptions */
     { method: 'GET', path: '/api/subscription', handler: getSubscriptions, auth: true },
@@ -51,6 +52,8 @@ const router = async ({ method, path, token, query, body }) => {
             case 'GET':
                 return await targetRoute.handler(query, token, _id)
             case 'POST':
+                return await targetRoute.handler(body, token, _id)
+            case 'PUT':
                 return await targetRoute.handler(body, token, _id)
             case 'DELETE':
                 return await targetRoute.handler(query, token, _id)

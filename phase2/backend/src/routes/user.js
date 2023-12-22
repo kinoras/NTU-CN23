@@ -76,8 +76,9 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
 
         // Append user info
         const subscribed = !!(_id && (await Subscription.exists({ creator: userInfo?._id, subscriber: _id })))
-        const { _id: userId, stuid, email, name, avatar } = userInfo
-        returnObject.user = { stuid, email, name, avatar, subscribed }
+        const { _id: userId, stuid, email, name, avatar, selfIntro, createdAt } = userInfo
+        const subsCount = await Subscription.countDocuments({ creator: userId })
+        returnObject.user = { stuid, email, name, avatar, subscribed, selfIntro, subsCount, createdAt }
 
         if (videos) {
             const videoList = await Video.find({ creator: userId }).sort({ createdAt: -1 })
@@ -103,6 +104,24 @@ export const getUser = async ({ stuid: _stuid, videos, podcasts }, token, _id) =
         }
 
         return returnObject
+    } catch (error) {
+        return errorMessage(5001, error)
+    }
+}
+
+export const updateUser = async ({ name, selfIntro }, _, _id) => {
+    try {
+        // Check params
+        if (!name || !typeof name === 'string' || name.trim().length === 0) {
+            return errorMessage(4221)
+        }
+
+        await User.findOneAndUpdate({ _id }, { name, selfIntro })
+
+        return {
+            status: 200,
+            message: 'success'
+        }
     } catch (error) {
         return errorMessage(5001, error)
     }
