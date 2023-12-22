@@ -47,9 +47,9 @@ const GuideView = () => {
                     <Paragraph>
                         <Title level={4}>個人頻道</Title>
                         <ul>
-                            <li>可以像 YouTube 一樣查看/訂閱其他人的頻道</li>
+                            <li>可以像 YouTube 一樣查看/訂閱其他人的頻道。</li>
                             <li>不能訂閱自己的頻道。</li>
-                            <li>暫未開放影片上傳功能。</li>
+                            <li>暫未開放影片上傳功能，但可以變更頻道介紹欄位。</li>
                         </ul>
                     </Paragraph>
                     <Paragraph>
