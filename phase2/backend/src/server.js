@@ -33,7 +33,7 @@ const requestSolver = async (requestData, socket) => {
         // Media request
         const { status, type, content, mtime, ...response } = path?.startsWith('/media/')
             ? await finder({ method, path, msince })
-            : await staticHolder({ method, path })
+            : await staticHolder({ method, path, msince })
         if (status === 200) {
             socket.write(formResponse.mediaHeader(status, type, content, mtime))
             socket.write(content)
