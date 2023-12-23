@@ -37,6 +37,7 @@ export const decodeToken = (token) => {
 
 const statusList = {
     200: 'OK',
+    304: 'Not Modified',
     400: 'Bad Request',
     401: 'Unauthorized',
     403: 'Forbidden',
@@ -90,7 +91,8 @@ export const parseRequest = (requestString) => {
             protocol,
             headers,
             body: parseBody(bodyString),
-            token: headers?.Authorization?.replace('Bearer ', '')
+            token: headers?.Authorization?.replace('Bearer ', ''),
+            msince: headers?.['If-Modified-Since']
         }
     } catch (err) {
         console.log(err)
@@ -102,7 +104,8 @@ export const parseRequest = (requestString) => {
             protocol: null,
             headers: {},
             body: null,
-            token: null
+            token: null,
+            msince: null
         }
     }
 }
@@ -120,14 +123,15 @@ export const formResponse = {
             `${responseBody}`
         ].join('\r\n')
     },
-    mediaHeader: (statusCode = 500, type, content) => {
+    mediaHeader: (statusCode = 500, type, content, mtime) => {
         return [
             formStatusLine(statusCode),
             'Access-Control-Allow-Origin: *',
             'Accept-Ranges: bytes',
             'Connection: keep-alive',
-            `Content-Type: ${type}`,
-            `Content-Length: ${Buffer.from(content).length}`,
+            ...(type ? [`Content-Type: ${type}`] : []),
+            ...(content ? [`Content-Length: ${Buffer.from(content).length}`] : []),
+            ...(mtime ? [`Last-Modified: ${mtime}`] : []),
             '',
             ''
         ].join('\r\n')

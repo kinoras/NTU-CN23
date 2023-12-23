@@ -21,7 +21,7 @@ if (!process.env.MONGO_URL) {
 // openssl x509 -req -in csr.pem -signkey private-key.pem -out public-cert.pem
 
 const requestSolver = async (requestData, socket) => {
-    const { method, path, token, query, body } = parseRequest(requestData)
+    const { method, path, token, query, body, msince } = parseRequest(requestData)
     if (method === 'OPTIONS') {
         // Preflight request
         socket.write(formResponse.options())
@@ -31,11 +31,11 @@ const requestSolver = async (requestData, socket) => {
         socket.write(formResponse.api(status, response))
     } else {
         // Media request
-        const { status, type, content, ...response } = path?.startsWith('/media/')
-            ? await finder({ method, path })
+        const { status, type, content, mtime, ...response } = path?.startsWith('/media/')
+            ? await finder({ method, path, msince })
             : await staticHolder({ method, path })
         if (status === 200) {
-            socket.write(formResponse.mediaHeader(status, type, content))
+            socket.write(formResponse.mediaHeader(status, type, content, mtime))
             socket.write(content)
         } else {
             socket.write(formResponse.api(status, response))

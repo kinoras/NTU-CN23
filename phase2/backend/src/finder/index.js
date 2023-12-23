@@ -1,6 +1,7 @@
 import { errorMessage, getContentType } from '../tools'
 import fs from 'fs/promises'
 import path from 'path'
+import dayjs from 'dayjs'
 import { URL } from 'url'
 
 const removeHash = (path) => {
@@ -9,7 +10,7 @@ const removeHash = (path) => {
     return parsedUrl.toString().replace('http://localhost', '')
 }
 
-export const finder = async ({ method, path: _path = '' }) => {
+export const finder = async ({ method, path: _path = '', msince }) => {
     try {
         // Check method
         if (method !== 'GET') {
@@ -23,9 +24,15 @@ export const finder = async ({ method, path: _path = '' }) => {
         }
 
         // Get file
-        const content = await fs.readFile(path.join(__dirname, '../../public', category, name))
-        const type = getContentType(path.extname(name)) ?? 'text/plain'
-        return { status: 200, type, content }
+        const filePath = path.join(__dirname, '../../public', category, name)
+        const mtime = new Date((await fs.stat(filePath))?.mtime).toUTCString()
+        if (!msince || dayjs(msince).isBefore(dayjs(mtime))) {
+            const content = await fs.readFile(filePath)
+            const type = getContentType(path.extname(name)) ?? 'text/plain'
+            return { status: 200, type, content, mtime }
+        } else {
+            return { status: 304, mtime }
+        }
     } catch (error) {
         if (error.code === 'ENOENT') {
             return errorMessage(4049)
