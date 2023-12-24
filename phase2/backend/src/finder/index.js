@@ -17,6 +17,10 @@ export const finder = async ({ method, path: _path = '', msince }) => {
             return errorMessage(4051)
         }
 
+        if (!_path) {
+            return errorMessage(4049)
+        }
+
         // Check path
         const [category, name] = _path?.replace('/media/', '')?.split('/', 2)
         if (!category || !name || !['video', 'audio', 'image'].includes(category)) {
@@ -47,6 +51,10 @@ export const staticHolder = async ({ method, path: _path = '', msince }) => {
         // Check method
         if (method !== 'GET') {
             return errorMessage(4051)
+        }
+
+        if (!_path) {
+            return errorMessage(4049)
         }
 
         const pathname = removeHash(_path)
