@@ -28,12 +28,12 @@ export const verifyUser = async ({ credential }) => {
 
         // Insert or get user info
         const insertInfo = email?.endsWith('@csie.ntu.edu.tw')
-            ? { name, avatar, email, stuid: email.split('@')[0] }
-            : { _id, name, avatar, email, stuid: `user-${_id?.toString()?.slice(-10)}` }
+            ? { name, email, stuid: email.split('@')[0] }
+            : { _id, name, email, stuid: `user-${_id?.toString()?.slice(-8)}` }
 
         const userInfo = await User.findOneAndUpdate(
             { email },
-            { $setOnInsert: insertInfo },
+            { $set: { avatar }, $setOnInsert: insertInfo },
             { upsert: true, new: true, runValidators: true }
         )
 
