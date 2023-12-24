@@ -8,6 +8,8 @@ import net from 'net'
 import path from 'path'
 import tls from 'tls'
 
+import { audioImporter } from './test'
+
 /* Environment config */
 dotenv.config()
 
@@ -41,6 +43,10 @@ const requestSolver = async (requestData, socket) => {
             socket.write(formResponse.api(status, response))
         }
     }
+}
+
+if (process.env.MODE === 'XXX-M') {
+    audioImporter('', []).then(() => exit('DONE'))
 }
 
 if (process.env.MODE === 'DEPLOY' && (!process.env.SSL_KEY || !process.env.SSL_CERT)) {
