@@ -1,5 +1,7 @@
 # 安裝指南
 
+> **關於使用方式、運作原理、網路配置等內容，請見 `README.pdf`。**
+
 請確保您的電腦已安裝以下程式：
 - [Node.js](https://nodejs.org/en)
 - [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
