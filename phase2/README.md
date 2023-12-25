@@ -10,8 +10,8 @@
 本部分的動作均在 `./backend` 目錄下進行。
 
 後端按架設目的不同，有兩種安裝方式：
-1. 開發：在本機 (localhost) 開啟並使用。
-2. 部署：可以用指定的域名連上網站並使用。
+1. 開發：在本機 (localhost) 開啟並使用
+2. 部署：可以用指定的域名連上網站並使用
 
 ### 🛠 前置作業
 
@@ -67,3 +67,33 @@ GOOGLE_CLIENT_ID = [7]
 
 如果是開發模式，請執行 `yarn server`。  
 如果是部署模式，請執行 `yarn deploy`。
+
+
+## 👨🏻‍💻 前端
+
+本部分的動作均在 `./frontend` 目錄下進行。
+
+### 🛠 參數設定
+
+把 `.env.defaults` 複製一份，並命名為 `.env`。
+
+```
+REACT_APP_PORT = [1]
+REACT_APP_GOOGLE_CLIENT_ID = [2]
+GENERATE_SOURCEMAP = false
+```
+
+各欄位說明如下：
+1. **後端連接埠編號**：[僅開發需要] 請使用設置後端參數時所設的連接埠。
+2. **Google OAuth 2.0 Client ID**：先前所申請的 Client ID (與後端相同)。
+
+### 🛠 安裝套件
+
+請執行 `yarn` 指令。
+
+### 🛠 啟用服務
+
+如果是開發模式，請執行 `yarn start`。之後 Console 就會出現網址及連接埠。
+
+如果是部署模式，請執行 `yarn build`，之後等待前端打包完成。  
+完成時，使用後端的 URL 即可連上。
