@@ -22,7 +22,19 @@ const ContextProvider = ({ children }) => {
         Authorization: `Bearer ${token}`
     }
 
-    const base = process.env.NODE_ENV === 'production' ? '' : `${window.location.protocol}//${window.location.host.replace(':3000', ':4000')}`
+    const getBase = () => {
+        if (process.env.NODE_ENV === 'production') {
+            return ''
+        }
+        const url = new URL(window.location.origin)
+        url.port = process.env.REACT_APP_PORT ?? 4000
+        if (!url.toString().endsWith('/')) {
+            return url.toString()
+        }
+        return url.toString().slice(0, -1)
+    }
+
+    const base = getBase()
 
     const get = async (path, query) => {
         const queryString = new URLSearchParams(query).toString()
