@@ -53,7 +53,7 @@ GOOGLE_CLIENT_ID = [7]
 ```
 
 各欄位說明如下：
-1. **後端連接埠編號**：建議使用 4000 (預設值)
+1. **後端連接埠編號**：建議使用 4000 (預設值)，避免使用[被認為是不安全的連接埠](https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/net/base/port_util.cc)
 2. **模式**：`DEV` = 開發；`DEPLOY` = 部置
 3. **MongoDB 連接字串**：先前所建置的 MongoDB 資料庫的連接字串 (`mongodb+srv://` 開始)
 4. **JWT 金鑰**：長度不少於 32 字元的任意字串
